@@ -1,18 +1,24 @@
 <template>
     <div class="w-1/2 mx-auto p-5 bg-image text-white">
-        <h1 class="text-xl font-bold">Ma Sói Millers Tool</h1>
+        <div class="flex items-center gap-4">
+            <img src="/img/logo.png" class="w-20" alt="">
+            <div class="flex-col" title="A Project By Matches.Enolam">
+                <h1 class="text-xl font-bold">The Werewolves of Millers Hollow</h1>
+                <h2 class="italic">Moderator Support Tool</h2>
+            </div>
+        </div>
         <div class="flex mt-10">
             <slot />
         </div>
         <div class="flex mt-10 gap-2 justify-end text-sm font-semibold italic">
-            <NuxtLink to="/">Trang chủ</NuxtLink>
-            <a href="#">Tác giả</a>
-            <a href="#">Hướng dẫn</a>
+            <span @click="$router.back()" class="hover:underline cursor-pointer">Back</span>
+            <NuxtLink to="/" class="hover:underline">Home</NuxtLink>
+            <a href="#" class="hover:underline">Report Bug</a>
         </div>
     </div>
 </template>
 <style>
     .bg-image {
-        background: url('https://images.beastsofwar.com/2021/12/Werewolves-Image-One.jpg');
+        background: url('/img/bg.jpg');
     }
 </style>

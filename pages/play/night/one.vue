@@ -3,7 +3,10 @@
         <div class="flex flex-col gap-2">
             <div class="w-full text-yellow-500 font-bold up">Đêm đầu tiên:</div>
             <div class="flex-col">
-                <span class="font-semibold text-red-500">Nội dung ván đấu:</span> <span>{{ textScript }}</span>
+                <p class="font-semibold text-red-300 bg-slate-400">Nội dung ván đấu:</p>
+                <p>{{ gameScript }}</p>
+                <p class="font-semibold text-red-700 bg-white">Hành động Quản trò:</p>
+                <p>{{ modScript }}</p>
                 <!-- Pickrole -->
                 <div v-if="setRole">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-1/2 mx-auto"
@@ -47,6 +50,17 @@
                             @click="choosePlayerProtect">Chọn</button>
                     </div>
                 </div>
+                <!-- Set Wolf Action -->
+                <div v-if="setKill">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-1/2 mx-auto">
+                        Đêm nay sói muốn cắn ai:
+                        <select class="text-black rounded" v-model="playerKillChoose">
+                            <option v-for="player in playerStore.playerAlive()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                        </select>
+                        <button class="bg-green-500 rounded text-sm py-1 px-1.5 uppercase"
+                            @click="choosePlayerKill">Chọn</button>
+                    </div>
+                </div>
                 <!-- Set Lookup -->
                 <div v-if="setLookup">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-1/2 mx-auto">
@@ -56,6 +70,44 @@
                         </select>
                         <button class="bg-green-500 rounded text-sm py-1 px-1.5 uppercase"
                             @click="choosePlayerLookup">Chọn</button>
+                    </div>
+                </div>
+                <!-- Set Witch Action -->
+                <div v-if="setWitchHelp">
+                    <div v-if="playerStore.witchHasHelp" class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-1/2 mx-auto">
+                        Đêm nay Phù Thủy muốn ném bình cứu ai:
+                        <select class="text-black rounded" v-model="witchHelpChoose">
+                            <option v-for="player in playerStore.playerDead()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                        </select>
+                        <button class="bg-green-500 rounded text-sm py-1 px-1.5 uppercase"
+                            @click="choosePlayerWitchHelp">Chọn</button>
+                    </div>
+                    <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-1/2 mx-auto">
+                        Phù thủy đã ném hết bình thuốc cứu!
+                    </div>
+                </div>
+                <div v-if="setWitchKill">
+                    <div v-if="playerStore.witchHasKill" class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-1/2 mx-auto">
+                        Đêm nay Phù Thủy muốn ném bình giết ai:
+                        <select class="text-black rounded" v-model="witchKillChoose">
+                            <option v-for="player in playerStore.playerAlive()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                        </select>
+                        <button class="bg-green-500 rounded text-sm py-1 px-1.5 uppercase"
+                            @click="choosePlayerWitchKill">Chọn</button>
+                    </div>
+                    <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-1/2 mx-auto">
+                        Phù thủy đã ném hết bình thuốc độc!
+                    </div>
+                </div>
+                <!-- Set Hunter Action -->
+                <div v-if="setHunterAim">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-1/2 mx-auto">
+                        Đêm nay Thợ Săn muốn ngắm bắn ai:
+                        <select class="text-black rounded" v-model="playerAimChoose">
+                            <option v-for="player in playerStore.playerAlive()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                        </select>
+                        <button class="bg-green-500 rounded text-sm py-1 px-1.5 uppercase"
+                            @click="choosePlayerHunterAim">Chọn</button>
                     </div>
                 </div>
             </div>
@@ -73,29 +125,40 @@
 import { usePlayerStore } from '@/stores/player';
 const playerStore = usePlayerStore();
 
-const textScript = ref('');
+const gameScript = ref('');
+const modScript = ref('');
 const setRole = ref(false);
 const setRoleMulti = ref(false);
 const setProtect = ref(false);
 const setLookup = ref(false);
+const setWitchHelp = ref(false);
+const setWitchKill = ref(false);
+const setKill = ref(false);
+const setHunterAim = ref(false);
 const roleChoose = ref(0);
-const playerChoose = ref(1);
-const playerProtectChoose = ref(1);
-const playerLookupChoose = ref(1);
+const playerChoose = ref(0);
+const playerKillChoose = ref(0);
+const playerProtectChoose = ref(0);
+const playerLookupChoose = ref(0);
+const playerAimChoose = ref(0);
+const witchHelpChoose = ref(0);
+const witchKillChoose = ref(0);
 const playerChooseMulti = ref([]);
 const step = ref(0);
 const listScript = [
     {
         id: 0,
         step: 0,
-        text: 'Màn đêm tối tăm buông xuống nơi khu làng ven sông, từ xa có tiếng sói vọng lại',
+        text: 'Màn đêm tối tăm buông xuống nơi khu làng ven sông, từ xa có tiếng sói vọng lại.',
+        modText: 'chia bài cho mọi người',
         delay: 3,
         actionAfter: []
     },
     {
         id: 1,
         step: 1,
-        text: 'Đêm đầu tiên, tất cả mọi người đi ngủ',
+        text: 'Đêm đầu tiên, tất cả dân làng đã chìm vào giấc ngủ sâu.',
+        modText: 'ra lệnh cho mọi người đi ngủ',
         delay: 3,
         actionAfter: []
     },
@@ -103,6 +166,7 @@ const listScript = [
         id: 2,
         step: 2,
         text: 'Bảo vệ thức dậy',
+        modText: 'gọi bảo vệ thức dậy',
         delay: 3,
         actionAfter: ['guardian']
     },
@@ -148,11 +212,10 @@ const nextStep = () => {
         alert('Vui lòng qua đêm');
         return;
     }
-    setRole.value = false;
-    setRoleMulti.value = false;
     //add text
-    const newText = listScript.find(item => item.step == step.value).text;
-    textScript.value = newText;
+    const script = listScript.find(item => item.step == step.value);
+    gameScript.value = script.text;
+    modScript.value = script.modText;
 
     //handle Action
     if (listScript[step.value].actionAfter.length > 0) {
@@ -170,23 +233,25 @@ const handleAction = (action) => {
         case 'guardian':
             setRole.value = true;
             roleChoose.value = 3;
-            setProtect.value = true;
             break;
         case 'werewolve':
+            setProtect.value = false;
             setRoleMulti.value = true;
             roleChoose.value = 2;
             break;
         case 'fortune_teller':
+            setKill.value = false;
             setRole.value = true;
             roleChoose.value = 6;
-            setProtect.value = false;
-            setLookup.value = true;
             break;
         case 'witch':
+            setLookup.value = false;
             setRole.value = true;
             roleChoose.value = 4;
             break;
         case 'hunter':
+            setWitchHelp.value = false;
+            setWitchKill.value = false;
             setRole.value = true;
             roleChoose.value = 5;
             break;
@@ -197,16 +262,34 @@ const handleAction = (action) => {
 }
 
 const choosePlayerRole = () => {
-    playerStore.changeRole(playerChoose.value, roleChoose.value);
+    let newText = playerStore.changeRole(playerChoose.value, roleChoose.value);
+    modScript.value = newText;
     setRole.value = false;
-    // nextStep();
+    if(roleChoose.value ==  3) {
+        setProtect.value = true;
+    }
+    if(roleChoose.value ==  6) {
+        setLookup.value = true;
+    }
+    if(roleChoose.value ==  4) {
+        setWitchHelp.value = true;
+        setWitchKill.value = true;
+    }
+    if(roleChoose.value ==  5) {
+        setHunterAim.value = true;
+    }
 }
 
 const choosePlayerRoleMulti = () => {
+    let newText = '';
     playerChooseMulti.value.forEach(item => {
-        playerStore.changeRole(item, roleChoose.value);
+        newText = playerStore.changeRole(item, roleChoose.value);
     });
-    // nextStep();
+    if(newText !== '') {
+        setRoleMulti.value = false;
+        modScript.value = newText;
+        setKill.value = true;
+    }
 }
 
 const choosePlayerProtect = () => {
@@ -214,12 +297,37 @@ const choosePlayerProtect = () => {
     nextStep();
 }
 
+const choosePlayerKill = () => {
+    playerStore.setDead(playerKillChoose.value);
+    nextStep();
+}
+
 const choosePlayerLookup = () => {
-    const playerLookup = playerStore.playerArr.find(item => item.id == playerLookupChoose.value);
-    if(playerLookup.role == 2) {
-        textScript.value += `${playerLookup.name} chính là sói`;
+    gameScript.value += playerStore.lookUpWolf(playerLookupChoose.value);
+}
+
+const choosePlayerWitchHelp = () => {
+    //relive
+    if(playerStore.witchHasHelp) {
+        playerStore.setRelive(witchHelpChoose.value);
     } else {
-        textScript.value += `${playerLookup.name} không phải là sói`;
+        alert('Phù thủy đã hết bình thuốc giải');
+        return;
     }
+}
+
+const choosePlayerWitchKill = () => {
+    //kill
+    if(playerStore.witchHasKill) {
+        playerStore.setDead(witchKillChoose.value, 'witch');
+    } else {
+        alert('Phù thủy đã hết bình thuốc độc');
+        return;
+    }
+}
+
+const choosePlayerHunterAim = () => {
+    playerStore.setAim(playerAimChoose.value);
+    nextStep();
 }
 </script>

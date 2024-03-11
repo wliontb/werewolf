@@ -44,7 +44,7 @@ export const useRoleStore = defineStore('role', () => {
         },
         {
             id: 7,
-            name: 'Kẻ phản bội',
+            name: 'Sói nguyền',
             nameEng: 'Traitor',
             faction: 'wolf',
             active: false

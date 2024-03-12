@@ -1,0 +1,27 @@
+<template>
+    <div class="w-1/5 flex-col text-right">
+        <ul class="flex-col">
+            <li class="bg-slate-400 border-b border border-black p-2" v-for="player in playerStore.playerArr" :id="player.id">
+                {{ player.aim ? '🔫' : '' }} 
+                {{ player.protected ? '🛡' : '' }} 
+                <span v-if="player.role === 4">
+                    <template v-if="playerStore.witchHasHelp">💊</template>
+                    <template v-if="playerStore.witchHasKill">🩹</template>
+                </span>
+                <span class="font-semibold text-black">{{ player.name }}</span>
+                [{{ player.role == 2 ? '🐺' : roleStore.roleById(player.role).name }}]
+                {{ player.alive ? '😃' : '👻' }}
+            </li>
+        </ul>
+    </div>
+</template>
+<script setup>
+import { usePlayerStore } from '@/stores/player';
+import { useNightStore } from '@/stores/night';
+import { useRoleStore } from '@/stores/role';
+const playerStore = usePlayerStore();
+const nightStore = useNightStore();
+const roleStore = useRoleStore();
+
+
+</script>

@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     }
   },
   modules: [
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
   pinia: {
     storesDirs: ['./stores/**']

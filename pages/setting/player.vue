@@ -7,27 +7,27 @@
             <div class="flex">
                 <div class="w-1/3">Add new player:</div>
                 <div class="flex w-2/3 gap-2">
-                    <input type="text" class="w-2/3 p-1 rounded text-black" placeholder="player name"
+                    <input type="text" class="w-2/3 p-1 rounded text-black" placeholder="Player name"
                         v-model="namePlayer" @keyup.enter="addPlayer">
                     <button class="w-1/3 bg-green-600 rounded p-1 uppercase hover:bg-green-700" @click="addPlayer">Add</button>
                     <button class="w-1/3 bg-red-500 rounded p-1 uppercase hover:bg-red-700" @click="playerStore.resetRole()">Reset Role</button>
                 </div>
             </div>
-            <div class="bg-indigo-500">
+            <div class="bg-indigo-500 my-4">
                 <table class="border-collapse table-auto w-full text-sm">
                     <thead>
                         <tr>
                             <th
-                                class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-slate-400 dark:text-slate-200 text-left">
+                                class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-left">
                                 STT</th>
                             <th
-                                class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-slate-400 dark:text-slate-200 text-left">
+                                class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-left">
                                 Tên</th>
                             <th
-                                class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-slate-400 dark:text-slate-200 text-left">
+                                class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-left">
                                 Vai trò</th>
                             <th
-                                class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-slate-400 dark:text-slate-200 text-center">
+                                class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-center">
                                 Tác vụ</th>
                         </tr>
                     </thead>
@@ -60,9 +60,9 @@
             <div class="flex">
                 <NuxtLink to="/play/night/one"
                     :class="{ 'pointer-events-none bg-slate-500': playerStore.totalPlayer() < roleStore.totalRoleActive() ? true : false }"
-                    class="bg-orange-500 rounded p-2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-red-500">
+                    class="bg-orange-500 rounded p-2 text-md mx-auto text-center border-white border-2 uppercase hover:bg-red-500">
                     <template v-if="playerStore.totalPlayer() < roleStore.totalRoleActive()">
-                        Chưa đủ người cho <span class="text-red-500">{{ roleStore.totalRoleActive() }}</span> vai trò
+                        Chưa đủ người cho <span class="text-red-500 font-bold">{{ roleStore.totalRoleActive() }}</span> vai trò
                     </template>
                     <template v-else>
                         Bắt đầu ván đấu
@@ -87,7 +87,7 @@ const addPlayer = () => {
         alert('Nhập tên chứa ít nhất 1 ký tự');
         return;
     }
-    playerStore.addPlayer(namePlayer.value.trim());
+    playerStore.addPlayer(titleCase(namePlayer.value.trim()));
     namePlayer.value = '';
     // checkTotalPlayer();
 }
@@ -101,5 +101,12 @@ const checkTotalPlayer = () => {
     }
 }
 
-
+function titleCase(str) {
+  var convertToArray = str.toLowerCase().split(' ');
+  var result = convertToArray.map(function(val) {
+    return val.replace(val.charAt(0), val.charAt(0).toUpperCase());
+  });
+  
+  return result.join(' ');
+}
 </script>

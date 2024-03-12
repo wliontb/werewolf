@@ -21,4 +21,15 @@
     .bg-image {
         background: url('/img/bg.jpg');
     }
+    body{
+        width: 100vw;
+        height: 100vh;
+    }
+    #__nuxt{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>

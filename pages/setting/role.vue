@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="flex">
-                <NuxtLink to="/setting/player" class="bg-orange-500 rounded p-2 w-1/2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-red-500">Tiếp tục</NuxtLink>
+                <NuxtLink to="/setting/player" class="bg-orange-500 rounded p-2 w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-orange-800">Tiếp tục</NuxtLink>
             </div>
         </div>
     </div>

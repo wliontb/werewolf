@@ -31,7 +31,7 @@
                                 Tác vụ</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-slate-800">
+                    <tbody class="bg-slate-800">
                         <tr v-for="player in playerStore.playerArr">
                             <td
                                 class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">

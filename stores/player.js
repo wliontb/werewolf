@@ -63,7 +63,7 @@ export const usePlayerStore = defineStore('player', () => {
 
     const changeRole = (id, role) => {
         const findRole = playerArr.value.filter(item => item.role === role);
-        if (findRole.length > 0 && role !== 1) {
+        if (findRole.length > 0 &&  ![1,2].includes(role)) {
             alert('Đã có người nắm vai trò này')
             return;
         }

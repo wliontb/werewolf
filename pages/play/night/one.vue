@@ -26,6 +26,7 @@
                             class="text-red-500 underline">cài đặt</NuxtLink> thêm
                     </div>
                 </div>
+                <!-- PickroleMulti -->
                 <div v-if="setRoleMulti">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white"
                         v-if="playerStore.playerFree().length > 0">

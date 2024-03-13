@@ -1,12 +1,14 @@
 <template>
     <div class="flex flex-col gap-4 w-4/5">
         <div class="flex flex-col gap-2">
-            <div class="w-full text-yellow-500 font-bold uppercase text-2xl">Đêm đầu tiên</div>
+            <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng đầu tiên</div>
             <div class="flex-col">
-                <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
-                <p class="text-sm">{{ gameScript }}</p>
-                <p class="font-semibold text-yellow-300 mt-3 underline ">Hành động Quản trò:</p>
-                <p class="mb-5 text-sm">{{ modScript }}</p>
+                <div class="py-1 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
+                    <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
+                    <p class="text-sm">{{ gameScript }}</p>
+                    <p class="font-semibold text-yellow-300 mt-2 underline ">Hành động Quản trò:</p>
+                    <p class="text-sm">{{ modScript }}</p>
+                </div>
                 <!-- Pickrole -->
                 <div v-if="setRole">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300"
@@ -18,7 +20,7 @@
                             </select>
                         </div>
                         
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 border-white border" style="margin: auto; height: 35px;"
                             @click="choosePlayerRole">Chọn</button>
                     </div>
                     <div v-else>
@@ -49,7 +51,7 @@
                 <!-- End Pickrole -->
                 <!-- Set Protected -->
                 <div v-if="setProtect">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Đêm nay bảo vệ muốn bảo vệ ai:</label>
                             <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="playerProtectChoose">
@@ -81,7 +83,7 @@
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Đêm nay tiên tri muốn soi ai:</label>    
                             <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="playerLookupChoose">
-                                <option v-for="player in playerStore.playerArr" :id="player.id" :value="player.id">{{ player.name }}</option>
+                                <option v-for="player in playerStore.playerArr.filter(item => item.role !== 6)" :id="player.id" :value="player.id">{{ player.name }}</option>
                             </select>
                         </div>
                         
@@ -101,7 +103,9 @@
                         <div class="flex justify-center items-center mb-3 text-black" v-if="nightStore.playerDeadArr.length == 0">
                             Đêm nay chưa có ai chết phù thủy không cần cứu
                         </div>
-                        
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;" v-if="nightStore.playerDeadArr.length == 0"
+                            @click="nextStep()">OK</button>
+
                         <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
                             @click="choosePlayerWitchHelp" v-if="nightStore.playerDeadArr.length > 0">Cứu</button>
                         <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
@@ -114,7 +118,7 @@
                 <div v-if="setWitchKill">
                     <div v-if="playerStore.witchHasKill" class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Đêm nay Phù Thủy muốn ném bình giết ai:</label>
+                            <label class="flex-1 text-black">Đêm nay Phù Thủy muốn hạ độc ai:</label>
                             <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="witchKillChoose">
                                 <option v-for="player in playerStore.playerAlive()" :id="player.id" :value="player.id">{{ player.name }}</option>
                             </select>
@@ -135,7 +139,7 @@
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Đêm nay Thợ Săn muốn ngắm bắn ai:</label>
                             <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="playerAimChoose">
-                                <option v-for="player in playerStore.playerAlive()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                                <option v-for="player in playerStore.playerArr" :id="player.id" :value="player.id">{{ player.name }}</option>
                             </select>
                         </div>
                         
@@ -148,7 +152,7 @@
                 class="bg-green-500 rounded p-2 w-1/2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-green-600 mt-6"
                 @click="nextStep">
                 Tiếp theo</button>
-            <NuxtLink to="/play/night/every"
+            <NuxtLink v-if="step == listStep.length" to="/play/day/one"
                 class="bg-orange-500 rounded p-2 w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-orange-800">
                 Qua Đêm</NuxtLink>
         </div>

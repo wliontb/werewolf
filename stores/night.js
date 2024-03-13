@@ -1,6 +1,7 @@
 export const useNightStore = defineStore('night', () => {
     const logScript = ref([]);
     const playerDeadArr = ref([]);
+    const playerWolfKilled = ref([]);
     const playerAimID = ref(0);
     const playerProtectedID = ref(0);
 

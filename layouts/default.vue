@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen flex items-center bg-black">
+    <div class="flex items-center bg-black h-screen">
         <div class="w-2/3 mx-auto bg-image text-white shadow-sm rounded">
             <div class="flex items-center gap-4 p-2">
                 <img src="/img/logo.png" class="w-20" alt="">
@@ -21,7 +21,7 @@
 </template>
 <style>
 .bg-image {
-    background: url('/img/bg-vector.jpg');
+    background: url('/img/flip-bg.png');
     background-size: cover;
 }
 </style>

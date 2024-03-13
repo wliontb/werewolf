@@ -21,7 +21,17 @@ export const usePlayerStore = defineStore('player', () => {
 
     const playerWithID = (id) => {
         return playerArr.value.find(player => player.id === id);
-    } 
+    }
+
+    const getPlayerAim = (id) => {
+        return playerArr.value.find(player => player.aim == true);
+    }
+
+    const getCountWolf = () => playerArr.value.filter(item => item.role == 2).length;
+    const getCountWolfAlive = () => playerArr.value.filter(item => item.role == 2 && item.alive == true).length;
+
+    const getCountHuman = () => playerArr.value.filter(item => item.role != 2).length;
+    const getCountHumanAlive = () => playerArr.value.filter(item => item.role != 2 && item.alive == true).length;
 
     const checkNameExist = (name) => {
         return playerArr.value.some(item => item.name.toUpperCase() == name.toUpperCase());
@@ -63,7 +73,7 @@ export const usePlayerStore = defineStore('player', () => {
 
     const changeRole = (id, role) => {
         const findRole = playerArr.value.filter(item => item.role === role);
-        if (findRole.length > 0 &&  ![1,2].includes(role)) {
+        if (findRole.length > 0 && ![1, 2].includes(role)) {
             alert('Đã có người nắm vai trò này')
             return;
         }
@@ -120,10 +130,9 @@ export const usePlayerStore = defineStore('player', () => {
                             night.addPlayerDead(id);
                         }
                     } else if (type == 'witch') {
-                        if(witchHasKill.value) {
+                        if (witchHasKill.value) {
                             deactiveWitch('kill');
                             player.alive = false;
-                            night.addPlayerDead(id);
                         } else {
                             alert('Phù thủy đã hết bình thuốc độc');
                         }
@@ -131,6 +140,9 @@ export const usePlayerStore = defineStore('player', () => {
                         alert(`${player.name} đã bị thợ săn bắn chết`);
                         player.alive = false;
                         //xem thợ săn có bị bắn chết vào tối không?  night.addPlayerDead(id);
+                    } else if (type == 'vote') {
+                        alert(`${player.name} đã bị treo cổ`);
+                        player.alive = false;
                     } else {
                         player.alive = false;
                     }
@@ -141,7 +153,7 @@ export const usePlayerStore = defineStore('player', () => {
     }
 
     const setRelive = (id) => {
-        if(witchHasHelp.value) {
+        if (witchHasHelp.value) {
             playerArr.value.forEach(player => {
                 if (player.id === id) {
                     if (night.playerProtectedID == id) {
@@ -170,14 +182,14 @@ export const usePlayerStore = defineStore('player', () => {
 
     const lookUpWolf = (id) => {
         const playerLookup = playerArr.value.find(item => item.id == id);
-        if(playerLookup.role == 2) {
+        if (playerLookup.role == 2) {
             alert(`${playerLookup.name} chính là sói`);
         } else {
             alert(`${playerLookup.name} không phải là sói`);
         }
     }
 
-    return { playerWithID, playerArr, witchHasHelp, witchHasKill, lookUpWolf, setRelive, deactiveWitch, addPlayer, changeRole, totalPlayer, removePlayer, playerFree, resetRole, setProtect, playerAlive, playerDead, setDead, setAim }
+    return { getCountHuman, getCountHumanAlive, getCountWolf, getCountWolfAlive, getPlayerAim, playerWithID, playerArr, witchHasHelp, witchHasKill, lookUpWolf, setRelive, deactiveWitch, addPlayer, changeRole, totalPlayer, removePlayer, playerFree, resetRole, setProtect, playerAlive, playerDead, setDead, setAim }
 }, {
     persist: true,
 })

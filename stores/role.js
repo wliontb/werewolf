@@ -44,11 +44,18 @@ export const useRoleStore = defineStore('role', () => {
         },
         {
             id: 7,
-            name: 'Sói nguyền',
-            nameEng: 'Traitor',
-            faction: 'wolf',
+            name: 'Thần tình yêu',
+            nameEng: 'Cupido',
+            faction: 'third',
             active: false
         },
+        {
+            id: 8,
+            name: 'Tarzan',
+            nameEng: 'Tarzan',
+            faction: 'third',
+            active: false
+        }
     ]);
 
     const roleById = (id) => {

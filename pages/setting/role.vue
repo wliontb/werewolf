@@ -5,10 +5,10 @@
                 <h1 class="font-bold">Chọn vai trò xuất hiện trong Ván Đấu:</h1>
             </div>
             <div class="flex flex-wrap">
-                <div class="p-1 w-1/2" v-for="role in roleStore.roleArr" :id="role.id">
+                <div class="p-1 w-1/2" v-for="role in roleStore.role" :id="role.id">
                     <div class="flex border border-white rounded p-3 bg-green-600 hover:bg-green-400">
                         <div class="w-2/3">{{ role.name }}</div>
-                        <input type="checkbox" class="rounded w-1/3" :checked="role.active" @change="roleStore.changeUsingRole(role.id)" :disabled="role.id == 1 || role.id == 2">
+                        <input type="checkbox" class="rounded w-1/3" :checked="role.active" @change="roleStore.toggleActive(role.id)" :disabled="role.id == 1 || role.id == 2">
                     </div>
                 </div>
             </div>

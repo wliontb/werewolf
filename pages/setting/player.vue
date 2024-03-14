@@ -5,10 +5,10 @@
                 <h1 class="uppercase">Players Setting</h1>
             </div>
             <div class="flex">
-                <div class="w-1/3">Add new player:</div>
+                <div class="w-1/3">Add new player: (Total: {{ gameStore.totalPlayer }})</div>
                 <div class="flex w-2/3 gap-2">
-                    <input type="text" class="w-2/3 p-1 rounded text-black" placeholder="Player name"
-                        v-model="namePlayer" @keyup.enter="addPlayer">
+                    <input type="text" class="w-2/3 p-1 rounded text-black" placeholder="input name"
+                        v-model="playerNameInput" @keyup.enter="addPlayer">
                     <button class="w-1/3 bg-green-600 rounded p-1 uppercase hover:bg-green-700" @click="addPlayer">Add</button>
                     <button class="w-1/3 bg-red-500 rounded p-1 uppercase hover:bg-red-700" @click="playerStore.resetRole()">Reset Role</button>
                 </div>
@@ -19,7 +19,7 @@
                         <tr>
                             <th
                                 class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-left">
-                                STT</th>
+                                ID</th>
                             <th
                                 class="border-b dark:border-slate-600 font-medium p-4 pl-8 text-left">
                                 Tên</th>
@@ -32,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-slate-800">
-                        <tr v-for="player in playerStore.playerArr">
+                        <tr v-for="player in playerStore.player">
                             <td
                                 class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
                                 #{{ player.id }}
@@ -43,15 +43,15 @@
                             </td>
                             <td
                                 class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
-                                {{ roleStore.roleById(player.role).name }}
+                                {{ roleStore.getByID(player.roleID).name }}
                             </td>
                             <td
                                 class="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400 text-center">
                                 <button class="bg-red-500 text-white rounded p-1 text-xs uppercase"
-                                    @click="playerStore.removePlayer(player.id)">Xóa</button>
+                                    @click="playerStore.remove(player.id)">Xóa</button>
                             </td>
                         </tr>
-                        <tr v-if="playerStore.playerArr.length == 0">
+                        <tr v-if="playerStore.player.length == 0">
                             <td colspan="4" class="text-center p-2">Chưa có người chơi nào !</td>
                         </tr>
                     </tbody>
@@ -59,13 +59,13 @@
             </div>
             <div class="flex">
                 <NuxtLink to="/play/night/one"
-                    :class="{ 'pointer-events-none bg-slate-500': playerStore.totalPlayer() < roleStore.totalRoleActive() ? true : false }"
+                    :class="{ 'pointer-events-none bg-slate-500': playerStore.player.length < roleStore.totalActive() ? true : false }"
                     class="bg-orange-500 rounded p-2 text-md mx-auto text-center border-white border-2 uppercase hover:bg-red-500">
-                    <template v-if="playerStore.totalPlayer() < roleStore.totalRoleActive()">
-                        Chưa đủ người cho <span class="text-red-500 font-bold">{{ roleStore.totalRoleActive() }}</span> vai trò
+                    <template v-if="playerStore.player.length < roleStore.totalActive()">
+                        Chưa đủ người cho <span class="text-red-500 font-bold">{{ roleStore.totalActive() }}</span> vai trò
                     </template>
                     <template v-else>
-                        Bắt đầu ván đấu
+                        Bắt đầu đêm đầu tiên
                     </template>
                 </NuxtLink>
             </div>
@@ -74,34 +74,26 @@
     </div>
 </template>
 <script setup>
+import { useGameStore } from '@/stores/game';
 import { usePlayerStore } from '@/stores/player';
 import { useRoleStore } from '@/stores/role';
 const playerStore = usePlayerStore();
 const roleStore = useRoleStore();
+const gameStore = useGameStore();
 
-const namePlayer = ref('');
-const passLink = ref(false);
+const playerNameInput = ref('');
 
 const addPlayer = () => {
-    if(namePlayer.value.trim().length == 0) {
-        alert('Nhập tên chứa ít nhất 1 ký tự');
+    if(playerNameInput.value.trim().length == 0) {
+        alert('Tên phải chứa ít nhất 1 ký tự');
         return;
     }
-    playerStore.addPlayer(titleCase(namePlayer.value.trim()));
-    namePlayer.value = '';
+    playerStore.add(titleCase(playerNameInput.value.trim()));
+    playerNameInput.value = '';
     // checkTotalPlayer();
 }
 
-const checkTotalPlayer = () => {
-    const total = playerStore.totalPlayer();
-    if (total < 2) {
-        passLink.value = false;
-    } else {
-        passLink.value = true;
-    }
-}
-
-function titleCase(str) {
+const titleCase = (str) => {
   var convertToArray = str.toLowerCase().split(' ');
   var result = convertToArray.map(function(val) {
     return val.replace(val.charAt(0), val.charAt(0).toUpperCase());

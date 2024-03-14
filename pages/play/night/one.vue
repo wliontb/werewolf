@@ -12,39 +12,44 @@
                 <!-- Pickrole -->
                 <div v-if="setRole">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300"
-                        v-if="playerStore.playerFree().length > 0">
+                        v-if="playerStore.getPlayerFree().length > 0">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Chọn 1 người chơi giữ Role này:</label> 
-                            <select class="text-black rounded flex-2 border border-slate-800 bg-slate-200" style="width: 14rem; height: 40px" v-model="playerChoose">
-                                <option v-for="player in playerStore.playerFree()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                            <label class="flex-1 text-black">Chọn 1 người chơi giữ Role này:</label>
+                            <select class="text-black rounded flex-2 border border-slate-800 bg-slate-200"
+                                style="width: 14rem; height: 40px" v-model="playerChoose">
+                                <option v-for="player in playerStore.getPlayerFree()" :id="player.id"
+                                    :value="player.id">{{ player.name }}</option>
                             </select>
                         </div>
-                        
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 border-white border" style="margin: auto; height: 35px;"
+
+                        <button
+                            class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 border-white border mx-auto"
                             @click="choosePlayerRole">Chọn</button>
                     </div>
                     <div v-else>
-                        Số lượng người chơi không đủ để giữ vai trò này, vui lòng <NuxtLink to="/setting/player"
+                        Không đủ người chơi để nhận thêm role này, vui lòng <NuxtLink to="/setting/player"
                             class="text-red-500 underline">cài đặt</NuxtLink> thêm
                     </div>
                 </div>
                 <!-- PickroleMulti -->
                 <div v-if="setRoleMulti">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white"
-                        v-if="playerStore.playerFree().length > 0">
+                        v-if="playerStore.getPlayerFree().length > 0">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Chọn những người chơi giữ Role này:</label> 
-                            <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; min-height: 40px" v-model="playerChooseMulti" multiple>
-                                <option v-for="player in playerStore.playerFree()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                            <label class="flex-1 text-black">Chọn những người chơi giữ Role này:</label>
+                            <select class="text-black rounded flex-2 border border-slate-800"
+                                style="width: 14rem; min-height: 40px" v-model="playerChooseMulti" multiple>
+                                <option v-for="player in playerStore.getPlayerFree()" :id="player.id"
+                                    :value="player.id">{{ player.name }}</option>
                             </select>
-                            
+
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
                             @click="choosePlayerRoleMulti">Chọn</button>
-                        
+
                     </div>
                     <div v-else>
-                        Số lượng người chơi không đủ để giữ vai trò này, vui lòng <NuxtLink to="/setting/player"
+                        Không đủ người chơi để nhận thêm role này, vui lòng <NuxtLink to="/setting/player"
                             class="text-red-500 underline">cài đặt</NuxtLink> thêm
                     </div>
                 </div>
@@ -54,11 +59,13 @@
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Đêm nay bảo vệ muốn bảo vệ ai:</label>
-                            <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="playerProtectChoose">
-                                    <option v-for="player in playerStore.playerArr" :id="player.id" :value="player.id">{{ player.name }}</option>
-                                </select>
+                            <select class="text-black rounded flex-2 border border-slate-800"
+                                style="width: 14rem; height: 40px" v-model="playerProtectChoose">
+                                <option v-for="player in playerStore.player" :id="player.id" :value="player.id">{{
+                        player.name }}</option>
+                            </select>
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
                             @click="choosePlayerProtect">Chọn</button>
                     </div>
                 </div>
@@ -66,71 +73,82 @@
                 <div v-if="setKill">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Đêm nay sói muốn cắn ai:</label>
-                            <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="playerKillChoose">
-                                <option v-for="player in playerStore.playerAlive()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                            <label class="flex-1 text-black">Chọn người sói muốn ăn thịt:</label>
+                            <select class="text-black rounded flex-2 border border-slate-800"
+                                style="width: 14rem; height: 40px" v-model="playerKillChoose">
+                                <option v-for="player in playerStore.getPlayerAlive()" :id="player.id"
+                                    :value="player.id">{{ player.name }}</option>
                             </select>
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
-                            @click="choosePlayerKill">Cắn</button>
-                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
-                            @click="nextStep">Không cắn ai</button>
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            @click="choosePlayerKill">Đánh chén</button>
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            @click="nextStep">Tối nay ăn chay</button>
                     </div>
                 </div>
                 <!-- Set Lookup -->
                 <div v-if="setLookup">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Đêm nay tiên tri muốn soi ai:</label>    
-                            <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="playerLookupChoose">
-                                <option v-for="player in playerStore.playerArr.filter(item => item.role !== 6)" :id="player.id" :value="player.id">{{ player.name }}</option>
+                            <label class="flex-1 text-black">Đêm nay tiên tri muốn soi ai:</label>
+                            <select class="text-black rounded flex-2 border border-slate-800"
+                                style="width: 14rem; height: 40px" v-model="playerLookupChoose">
+                                <option v-for="player in playerStore.player.filter(item => item.roleID !== 6)"
+                                    :id="player.id" :value="player.id">{{ player.name }}</option>
                             </select>
                         </div>
-                        
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
+
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
                             @click="choosePlayerLookup">Chọn</button>
                     </div>
                 </div>
                 <!-- Set Witch Action -->
                 <div v-if="setWitchHelp">
-                    <div v-if="playerStore.witchHasHelp" class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white mb-4">
-                        <div class="flex justify-center items-center mb-3" v-if="nightStore.playerDeadArr.length > 0">
-                            <label class="flex-1 text-black">Đêm nay Phù Thủy muốn ném bình cứu ai:</label>
-                            <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="witchHelpChoose">
-                                <option v-for="playerID in nightStore.playerDeadArr" :value="playerID">{{ playerStore.playerWithID(playerID).name }}</option>
+                    <div v-if="roleStore.witchHasProtect"
+                        class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white mb-4">
+                        <div class="flex justify-center items-center mb-3" v-if="nightStore.killedByWolf.length > 0">
+                            <label class="flex-1 text-black">Chọn người để dùng Thuốc Hồi sinh:</label>
+                            <select class="text-black rounded flex-2 border border-slate-800"
+                                style="width: 14rem; height: 40px" v-model="witchHelpChoose">
+                                <option v-for="playerID in nightStore.killedByWolf" :value="playerID">{{
+                        playerStore.getPlayerByID(playerID).name }}</option>
                             </select>
                         </div>
-                        <div class="flex justify-center items-center mb-3 text-black" v-if="nightStore.playerDeadArr.length == 0">
-                            Đêm nay chưa có ai chết phù thủy không cần cứu
+                        <div class="flex justify-center items-center mb-3 text-black"
+                            v-if="nightStore.killedByWolf.length == 0">
+                            Đêm nay không có ai phải cứu!
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;" v-if="nightStore.playerDeadArr.length == 0"
-                            @click="nextStep()">OK</button>
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            v-if="nightStore.killedByWolf.length == 0" @click="nextStep()">OK luôn!</button>
 
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
-                            @click="choosePlayerWitchHelp" v-if="nightStore.playerDeadArr.length > 0">Cứu</button>
-                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
-                            @click="nextStep" v-if="nightStore.playerDeadArr.length > 0">Không cứu</button>
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            @click="choosePlayerWitchHelp" v-if="nightStore.killedByWolf.length > 0">Cứu</button>
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto" @click="nextStep"
+                            v-if="nightStore.killedByWolf.length > 0">Không cứu</button>
                     </div>
                     <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
-                        Phù thủy đã ném hết bình thuốc cứu!
+                        Phù thủy đã dùng hết Thuốc Hồi Sinh!
                     </div>
                 </div>
                 <div v-if="setWitchKill">
-                    <div v-if="playerStore.witchHasKill" class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div v-if="roleStore.witchHasPoison"
+                        class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Đêm nay Phù Thủy muốn hạ độc ai:</label>
-                            <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="witchKillChoose">
-                                <option v-for="player in playerStore.playerAlive()" :id="player.id" :value="player.id">{{ player.name }}</option>
+                            <select class="text-black rounded flex-2 border border-slate-800"
+                                style="width: 14rem; height: 40px" v-model="witchKillChoose">
+                                <option v-for="player in playerStore.getPlayerAlive()" :id="player.id"
+                                    :value="player.id">{{ player.name }}</option>
                             </select>
                         </div>
-                        
-                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
-                            @click="choosePlayerWitchKill">Ném</button>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
-                            @click="choosePlayerWitchKill">Không ném</button>
+
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            @click="choosePlayerWitchKill">Hạ độc</button>
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            @click="choosePlayerWitchKill">Không dùng thuốc</button>
                     </div>
                     <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
-                        Phù thủy đã ném hết bình thuốc độc!
+                        Phù thủy đã dùng hết Thuốc Độc!
                     </div>
                 </div>
                 <!-- Set Hunter Action -->
@@ -138,13 +156,17 @@
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Đêm nay Thợ Săn muốn ngắm bắn ai:</label>
-                            <select class="text-black rounded flex-2 border border-slate-800" style="width: 14rem; height: 40px" v-model="playerAimChoose">
-                                <option v-for="player in playerStore.playerArr" :id="player.id" :value="player.id">{{ player.name }}</option>
+                            <select class="text-black rounded flex-2 border border-slate-800"
+                                style="width: 14rem; height: 40px" v-model="playerAimChoose">
+                                <option v-for="player in playerStore.player" :id="player.id" :value="player.id">{{
+                        player.name }}</option>
                             </select>
                         </div>
-                        
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3" style="margin: auto; height: 35px;"
-                            @click="choosePlayerHunterAim">Chọn</button>
+
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            @click="choosePlayerHunterAim">Ngắm bắn</button>
+                        <button class="bg-orange-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            @click="choosePlayerHunterAim">Không ngắm</button>
                     </div>
                 </div>
             </div>
@@ -162,8 +184,10 @@
 <script setup>
 import { usePlayerStore } from '@/stores/player';
 import { useNightStore } from '@/stores/night';
+import { useRoleStore } from '@/stores/role';
 const playerStore = usePlayerStore();
 const nightStore = useNightStore();
+const roleStore = useRoleStore();
 
 const step = ref(0);
 const gameScript = ref('');
@@ -259,7 +283,7 @@ const listStep = ref([
 ])
 
 const nextStep = () => {
-    if(step.value > (listStep.value.length - 1)){
+    if (step.value > (listStep.value.length - 1)) {
         alert('Vui lòng qua đêm');
         return;
     }
@@ -338,35 +362,35 @@ const triggerAction = (actionName) => {
 }
 
 const choosePlayerRole = () => {
-    playerStore.changeRole(playerChoose.value, roleChoose.value);
+    playerStore.setRole(playerChoose.value, roleChoose.value);
     nextStep();
 }
 
 const choosePlayerRoleMulti = () => {
     playerChooseMulti.value.forEach(item => {
-        playerStore.changeRole(item, roleChoose.value);
+        playerStore.setRole(item, roleChoose.value);
     });
     nextStep();
 }
 
 const choosePlayerProtect = () => {
-    playerStore.setProtect(playerProtectChoose.value);
+    nightStore.setProtectID(playerProtectChoose.value);
     nextStep();
 }
 
 const choosePlayerKill = () => {
-    playerStore.setDead(playerKillChoose.value);
+    nightStore.addPlayerKilledByWolf(playerKillChoose.value);
     nextStep();
 }
 
 const choosePlayerLookup = () => {
-    playerStore.lookUpWolf(playerLookupChoose.value);
+    playerStore.isWolf(playerLookupChoose.value);
     nextStep();
 }
 
 const choosePlayerWitchHelp = () => {
     //relive
-    playerStore.setRelive(witchHelpChoose.value);
+    playerStore.revival(witchHelpChoose.value);
     nextStep();
 }
 
@@ -377,7 +401,7 @@ const choosePlayerWitchKill = () => {
 }
 
 const choosePlayerHunterAim = () => {
-    playerStore.setAim(playerAimChoose.value);
+    nightStore.setAimID(playerAimChoose.value);
     nextStep();
 }
-</script>
+</script>~/stores/player

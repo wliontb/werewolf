@@ -1,15 +1,15 @@
 <template>
     <div class="w-1/5 flex-col text-right">
         <ul class="flex-col">
-            <li class="bg-slate-400 border-b border border-black p-2" v-for="player in playerStore.playerArr" :id="player.id">
-                {{ player.aim ? '🔫' : '' }} 
-                {{ player.protected ? '🛡' : '' }} 
-                <span v-if="player.role === 4">
+            <li class="bg-slate-400 border-b border border-black p-2" v-for="player in playerStore.player" :id="player.id">
+                {{ nightStore.aimID == player.id ? '🔫' : '' }} 
+                {{ nightStore.protectID == player.id ? '🛡' : '' }} 
+                <span v-if="player.roleID === 4">
                     <template v-if="playerStore.witchHasHelp">💊</template>
                     <template v-if="playerStore.witchHasKill">🩹</template>
                 </span>
                 <span class="font-semibold text-black">{{ player.name }}</span>
-                [{{ player.role == 2 ? '🐺' : roleStore.roleById(player.role).name }}]
+                [{{ player.roleID == 2 ? '🐺' : roleStore.getByID(player.roleID).name }}]
                 {{ player.alive ? '😃' : '👻' }}
             </li>
         </ul>

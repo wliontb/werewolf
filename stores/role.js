@@ -1,5 +1,5 @@
 export const useRoleStore = defineStore('role', () => {
-    const roleArr = ref([
+    const role = ref([
         {
             id: 1,
             name: 'Dân làng',
@@ -58,6 +58,9 @@ export const useRoleStore = defineStore('role', () => {
         }
     ]);
 
+    const witchHasPoison = ref(true);
+    const witchHasProtect = ref(true);
+
     const roleById = (id) => {
         return roleArr.value.find(item => item.id === id);
     }
@@ -97,5 +100,7 @@ export const useRoleStore = defineStore('role', () => {
         });
     };
 
-    return {roleArr, addRole, changeUsingRole, roleById, totalRoleActive}
+    return {
+        role,
+    }
 })

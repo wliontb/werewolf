@@ -1,37 +1,17 @@
 export const useNightStore = defineStore('night', () => {
-    const logScript = ref([]);
-    const playerDeadArr = ref([]);
-    const playerWolfKilled = ref([]);
-    const playerAimID = ref(0);
-    const playerProtectedID = ref(0);
-
-    const addPlayerDead = (playerID) => {
-        if(!playerDeadArr.value.includes(playerID))
-            playerDeadArr.value.push(playerID);
-    }
-
-    const removePlayerDead = (playerID) => {
-        if(playerDeadArr.value.includes(playerID))
-            playerDeadArr.value = playerDeadArr.value.filter(id => id != playerID);
-    }
-
-    const changePlayerAim = (playerID) => {
-        playerAimID.value = playerID;
-    }
-
-    const changePlayerProtect = (playerID) => {
-        playerProtectedID.value = playerID;
-    }
-
-    const addLog = (text) => {
-        logScript.value.push(text);
-    }
+    const nightNumber = ref(1);
+    const killedByWolf = ref([]);
+    const killedByHunt = ref([]);
+    const killedByWitch = ref([]);
+    const aimID = ref(0);
+    const protectID = ref(0);
 
     return {
-        logScript,
-        playerDeadArr,
-        playerAimID,
-        playerProtectedID,
-        removePlayerDead, addPlayerDead, changePlayerAim, changePlayerProtect, addLog
+        nightNumber,
+        killedByWolf,
+        killedByHunt,
+        killedByWitch,
+        aimID,
+        protectID
     }
 })

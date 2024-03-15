@@ -12,9 +12,9 @@ export default defineNuxtRouteMiddleware((to, from) => {
     if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive == (gameStore.totalAlive / 2)){
         return abortNavigation();
     } else {
-        nightStore.$reset();
+        nightStore.resetPreNight();
         nightStore.incrementNight();
-        gameStore.setTotalAlive(playerStore.player.length);
+        gameStore.setTotalAlive(playerStore.getPlayerAlive().length);
         playerStore.pushPlayerOut(playerStore.getPlayerDead());
         playerStore.setPlayer(playerStore.getPlayerAlive());
         return;

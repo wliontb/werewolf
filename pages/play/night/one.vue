@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-4 w-4/5">
         <div class="flex flex-col gap-2">
-            <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng đầu tiên, số Sói: {{ gameStore.totalWolf }} - Sống: {{ gameStore.totalWolfLive }}</div>
+            <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng đầu tiên</div>
             <div class="flex-col">
                 <div class="py-1 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
                     <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
@@ -14,7 +14,7 @@
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300"
                         v-if="playerStore.getPlayerFree().length > 0">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Chọn 1 người chơi giữ Role này:</label>
+                            <label class="flex-1 text-black">Chọn người chơi giữ Role này:</label>
                             <select class="text-black rounded flex-2 border border-slate-800 bg-slate-200"
                                 style="width: 14rem; height: 40px" v-model="playerChoose">
                                 <option v-for="player in playerStore.getPlayerFree()" :id="player.id"
@@ -23,7 +23,7 @@
                         </div>
 
                         <button
-                            class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 border-white border mx-auto"
+                            class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 border-white border mx-auto hover:bg-green-800"
                             @click="choosePlayerRole">Chọn</button>
                     </div>
                     <div v-else>
@@ -53,27 +53,26 @@
                             class="text-red-500 underline">cài đặt</NuxtLink> thêm
                     </div>
                 </div>
-                <!-- End Pickrole -->
                 <!-- Set Protected -->
                 <div v-if="setProtect">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Chọn người muốn bảo vệ khỏi sói:</label>
+                            <label class="flex-1 text-black">Chọn người được bảo vệ:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; height: 40px" v-model="playerProtectChoose">
                                 <option v-for="player in playerStore.player" :id="player.id" :value="player.id">{{
                         player.name }}</option>
                             </select>
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800"
                             @click="choosePlayerProtect">Chọn</button>
-                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800"
                             @click="nextStep">Không bảo vệ ai</button>
                     </div>
                 </div>
                 <!-- Set Wolf Action -->
                 <div v-if="setKill">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-red-300">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người sói muốn ăn thịt:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -82,17 +81,17 @@
                                     :value="player.id">{{ player.name }}</option>
                             </select>
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="choosePlayerKill">Đánh chén</button>
-                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="nextStep">Tối nay ăn chay</button>
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800"
+                            @click="choosePlayerKill">Chọn</button>
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800"
+                            @click="nextStep">Đêm nay ăn chay</button>
                     </div>
                 </div>
                 <!-- Set Lookup -->
                 <div v-if="setLookup">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Đêm nay tiên tri muốn soi ai:</label>
+                            <label class="flex-1 text-black">Chọn người tiên tri muốn soi:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; height: 40px" v-model="playerLookupChoose">
                                 <option v-for="player in playerStore.player.filter(item => item.roleID !== 6)"
@@ -100,8 +99,9 @@
                             </select>
                         </div>
 
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800"
                             @click="choosePlayerLookup">Chọn</button>
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800" @click="nextStep">Không soi ai</button>
                     </div>
                 </div>
                 <!-- Set Witch Action -->
@@ -136,7 +136,7 @@
                     <div v-if="roleStore.witchHasPoison"
                         class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-red-200">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Đêm nay Phù Thủy muốn hạ độc ai:</label>
+                            <label class="flex-1 text-black">Chọn người để dùng Thuốc độc:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; height: 40px" v-model="witchKillChoose">
                                 <option v-for="player in playerStore.getPlayerAlive()" :id="player.id"
@@ -157,7 +157,7 @@
                 <div v-if="setHunterAim">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Đêm nay Thợ Săn muốn ngắm bắn ai:</label>
+                            <label class="flex-1 text-black">Chọn người thợ săn muốn ngắm bắn:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; height: 40px" v-model="playerAimChoose">
                                 <option v-for="player in playerStore.player.filter(item => item.roleID !== 5)" :id="player.id" :value="player.id">{{
@@ -166,9 +166,9 @@
                         </div>
 
                         <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="choosePlayerHunterAim">Ngắm bắn</button>
+                            @click="choosePlayerHunterAim">Chọn</button>
                         <button class="bg-orange-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="choosePlayerHunterAim">Không ngắm</button>
+                            @click="choosePlayerHunterAim">Không bắn ai</button>
                     </div>
                 </div>
             </div>
@@ -201,8 +201,8 @@ definePageMeta({
 })
 
 const step = ref(0);
-const gameScript = ref('');
-const modScript = ref('');
+const gameScript = ref('Màn đêm buông xuống, dân làng chìm vào giấc ngủ');
+const modScript = ref('Quản trò ra lệnh cho tất cả mọi người đi ngủ');
 
 const setRole = ref(false);
 const setRoleMulti = ref(false);
@@ -227,67 +227,62 @@ const playerAimChoose = ref(0);
 
 const listStep = ref([
     {
-        gameScript: 'Tất cả đi ngủ',
-        modScript: 'Quản trò ra lệnh đi ngủ',
-        action: []
-    },
-    {
-        gameScript: 'Bảo vệ thức dậy',
+        gameScript: 'Một chàng trai khỏe mạnh có sức khỏe vô địch thức giấc',
         modScript: 'Gọi bảo vệ thức dậy',
         action: ['wakeupGuardian']
     },
     {
-        gameScript: 'Bảo vệ muốn bảo vệ ai',
-        modScript: 'Chọn người để bảo vệ',
+        gameScript: 'Anh chàng lực lưỡng này quyết tâm bảo vệ mọi người',
+        modScript: 'Hỏi bảo vệ muốn bảo vệ ai?',
         action: ['guardianProtect']
     },
     {
-        gameScript: 'Sói thức dậy',
-        modScript: 'Gọi sói dậy',
+        gameScript: 'Từ xa có tiếng sói vang vọng',
+        modScript: 'Gọi sói thức dậy',
         action: ['wakeupWolf']
     },
     {
-        gameScript: 'Sói muốn cắn ai',
-        modScript: 'Ra lệnh cho sói cắn',
+        gameScript: 'Chúng hung hãn và thèm khát máu người',
+        modScript: 'Hỏi xem sói đêm nay muốn cắn ai',
         action: ['wolfKill']
     },
     {
-        gameScript: 'Tiên tri thức dậy',
-        modScript: 'Gọi tiên tri thức giấc',
+        gameScript: 'Trong túp lều có 1 người đang đứng trước quả cầu ma thuật',
+        modScript: 'Gọi tiên tri thức dậy',
         action: ['wakeupFT']
     },
     {
-        gameScript: 'Tiên tri soi người',
-        modScript: 'Tiên tri soi đi',
+        gameScript: 'Tiên tri muốn xem có điều gì khác thường trong làng',
+        modScript: 'Hỏi tiên tri muốn soi xem ai là sói?',
         action: ['ftLookup']
     },
     {
-        gameScript: 'Phù thủy tỉnh dậy',
+        gameScript: 'Bên rìa làng có một phù thủy đang hành động',
         modScript: 'Gọi phù thủy dậy',
         action: ['wakeupWitch']
     },
     {
-        gameScript: 'Phù thủy ném thuốc giải',
-        modScript: 'Phù thủy ném thuốc giải',
+        gameScript: 'Phù thủy rủ lòng từ bi',
+        modScript: 'Đêm nay có người chết, hỏi xem phù thủy muốn cứu ai?',
         action: ['witchHelp']
     },
     {
-        gameScript: 'Phù thủy ném thuốc độc',
-        modScript: 'Phù thủy ném thuốc độc',
+        gameScript: 'Phù thủy nở nụ cười man rợ',
+        modScript: 'Hỏi xem phù thủy muốn hạ độc ai?',
         action: ['witchKill']
     },
     {
-        gameScript: 'Thợ săn tỉnh dậy',
-        modScript: 'Gọi thợ săn tỉnh dậy',
+        gameScript: 'Mùi thuốc súng đâu đây, đó chính là thợ săn',
+        modScript: 'Gọi thợ săn thức dậy',
         action: ['wakeupHunter']
     },
     {
-        gameScript: 'Thợ săn ngắm bắn',
-        modScript: 'Chọn người thợ săn muốn bắn',
+        gameScript: 'Súng đã lên nòng',
+        modScript: 'Hỏi thợ săn muốn ngắm bắn ai?',
         action: ['hunterAim']
     },
     {
-        gameScript: 'Hết đêm',
+        gameScript: 'Đêm kinh hoàng đã trôi qua',
         modScript: 'Qua đêm đầu tiên, chuẩn bị công bố kết quả',
         action: ['showLogNightOne']
     }

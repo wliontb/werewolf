@@ -18,7 +18,7 @@
                                 Đêm qua có {{ nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length }} người chết
                             </p>
                             <p class="text-black">
-                                Kết luận: {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive == (gameStore.totalAlive/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
+                                Kết luận: {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
                             </p>
                         </div>
 

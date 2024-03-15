@@ -21,6 +21,14 @@ export const useNightStore = defineStore('night', () => {
         protectID.value = 0;
     }
 
+    const resetPreNight = () => {
+        killedByWolf.value = [];
+        killedByHunt.value = [];
+        killedByWitch.value = [];
+        aimID.value = 0;
+        protectID.value = 0;
+    }
+
     const incrementNight = () => {
         nightNumber.value++;
     }
@@ -28,7 +36,9 @@ export const useNightStore = defineStore('night', () => {
     const setProtectID = (idPlayer) => {
         if(game.addProtectHistory(idPlayer)) {
             protectID.value = idPlayer;
+            return true;
         }
+        return false;
     }
 
     const setAimID = (idPlayer) => {
@@ -89,6 +99,7 @@ export const useNightStore = defineStore('night', () => {
 
     return {
         $reset,
+        resetPreNight,
         nightNumber,
         killedByWolf,
         killedByHunt,

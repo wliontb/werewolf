@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-4 w-4/5">
         <div class="flex flex-col gap-2">
-            <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng thứ {{ nightStore.nightNumber }}, số Sói: {{ gameStore.totalWolf }} - Sống: {{ gameStore.totalWolfLive }}</div>
+            <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng thứ {{ nightStore.nightNumber }}</div>
             <div class="flex-col">
                 <div class="py-1 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
                     <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
@@ -75,18 +75,8 @@
                     </div>
                 </div>
                 <!-- Set Witch Action -->
-                <div v-if="playerStore.player.filter(item => item.roleID == 4 && item.alive == false).length > 0">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
-                        <div class="flex justify-center items-center mb-3 text-black">
-                            Phù thủy đã chết
-                        </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="nextStep">Bỏ qua</button>
-                    </div>
-                </div>
-                <div v-else>
                     <div v-if="setWitchHelp">
-                        <div v-if="roleStore.witchHasProtect"
+                        <div v-if="roleStore.witchHasProtect && playerStore.player.filter(item => item.roleID == 4 && item.alive == true).length > 0"
                             class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-green-200 mb-4">
                             <div class="flex justify-center items-center mb-3" v-if="nightStore.killedByWolf.length > 0">
                                 <label class="flex-1 text-black">Chọn người để dùng Thuốc Hồi sinh:</label>
@@ -109,11 +99,13 @@
                                 v-if="nightStore.killedByWolf.length > 0">Không cứu</button>
                         </div>
                         <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white text-black">
-                            Phù thủy đã dùng hết Thuốc Hồi Sinh!
+                            Phù thủy không thể hồi sinh do hết thuộc hoặc đã ngỏm!
+                            <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                                @click="nextStep">Bỏ qua</button>
                         </div>
                     </div>
                     <div v-if="setWitchKill">
-                        <div v-if="roleStore.witchHasPoison"
+                        <div v-if="roleStore.witchHasPoison && playerStore.player.filter(item => item.roleID == 4 && item.alive == true).length > 0"
                             class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-red-200">
                             <div class="flex justify-center items-center mb-3 ">
                                 <label class="flex-1 text-black">Đêm nay Phù Thủy muốn hạ độc ai:</label>
@@ -127,13 +119,14 @@
                             <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
                                 @click="choosePlayerWitchKill">Hạ độc</button>
                             <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                                @click="choosePlayerWitchKill">Bỏ qua</button>
+                                @click="nextStep">Bỏ qua</button>
                         </div>
                         <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white text-black">
-                            Phù thủy đã dùng hết Thuốc Độc!
+                            Phù thủy không thể hạ độc do hết thuộc hoặc đã ngỏm!
+                            <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                                @click="nextStep">Bỏ qua</button>
                         </div>
                     </div>
-                </div>
                 
                 <!-- Set Hunter Action -->
                 <div v-if="setHunterAim">
@@ -190,8 +183,8 @@ definePageMeta({
 })
 
 const step = ref(0);
-const gameScript = ref('');
-const modScript = ref('');
+const gameScript = ref('Tất cả đi ngủ');
+const modScript = ref('Quản trò ra lệnh cho mọi người đi ngủ');
 
 const setProtect = ref(false);
 const setKill = ref(false);
@@ -208,11 +201,6 @@ const witchKillChoose = ref(0);
 const playerAimChoose = ref(0);
 
 const listStep = ref([
-    {
-        gameScript: 'Tất cả đi ngủ',
-        modScript: 'Quản trò ra lệnh đi ngủ',
-        action: []
-    },
     {
         gameScript: 'Bảo vệ muốn bảo vệ ai',
         modScript: 'Chọn người để bảo vệ',
@@ -305,8 +293,10 @@ const triggerAction = (actionName) => {
 }
 
 const choosePlayerProtect = () => {
-    nightStore.setProtectID(playerProtectChoose.value);
-    nextStep();
+    if(nightStore.setProtectID(playerProtectChoose.value))
+        nextStep();
+    else
+        alert('Vui lòng chọn lại');
 }
 
 const choosePlayerKill = () => {

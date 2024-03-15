@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-4 w-4/5">
         <div class="flex flex-col gap-2">
-            <div class="w-full text-red-500 font-bold uppercase text-2xl">Ngày thứ nhất</div>
+            <div class="w-full text-red-500 font-bold uppercase text-2xl">Buổi sáng đầu tiên</div>
             <div class="flex-col">
                 <div class="py-1 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
                     <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
@@ -15,15 +15,14 @@
                         <div class="flex-col justify-center items-center text-center mb-3">
                             <p class="text-black font-bold">Kết quả:</p>
                             <p class="text-black">
-                                Đêm qua có {{ nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length }} người chết
+                                Đêm qua đã có {{ nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length }} người chết !
                             </p>
                             <p class="text-black">
-                                Kết luận: {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive == (gameStore.totalAlive/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
+                                <b>Kết luận:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
                             </p>
                         </div>
 
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3"
-                            style="margin: auto; height: 35px;" @click="nextStep">Tiếp tục</button>
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="nextStep">Tiếp tục</button>
                     </div>
                 </div>
                 <!-- Countdown -->
@@ -35,12 +34,10 @@
                         <div class="mb-3 text-center text-red-500">
                             {{ countdown }}
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3"
-                            style="margin: auto; height: 35px;" @click="startCountdown" v-if="!counting">
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="startCountdown" v-if="!counting">
                             Đếm ngược
                         </button>
-                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3"
-                            style="margin: auto; height: 35px;" @click="nextStep" v-if="counting">
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800" @click="nextStep" v-if="counting">
                             Bỏ qua đếm ngược
                         </button>
                     </div>
@@ -57,18 +54,18 @@
                             </select>
                         </div>
 
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3"
-                            style="margin: auto; height: 35px;" @click="choosePlayerLynch">Chọn</button>
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="choosePlayerLynch">Chọn</button>
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800" @click="nextStep">Không treo cổ ai cả</button>
                     </div>
                 </div>
             </div>
-            <button
-                class="bg-green-500 rounded p-2 w-1/2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-green-600 mt-6"
-                @click="nextStep">
-                Tiếp theo</button>
             <NuxtLink v-if="step == listStep.length" to="/play/night/every"
                 class="bg-orange-500 rounded p-2 w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-orange-800">
-                Tới Đêm</NuxtLink>
+                Tới buổi tối
+            </NuxtLink>
+            <button v-else class="bg-green-500 rounded p-2 w-1/2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-green-600 mt-6" @click="nextStep">
+                Tiếp theo
+            </button>
         </div>
     </div>
     <LogBar />
@@ -83,8 +80,8 @@ const nightStore = useNightStore();
 const gameStore = useGameStore();
 
 const step = ref(0);
-const gameScript = ref('Bình minh ló rạng');
-const modScript = ref('Ra lệnh cho mọi người mở mắt');
+const gameScript = ref('Bình minh đã ló rạng');
+const modScript = ref('Ra lệnh cho mọi người thức dậy');
 
 const displayResult = ref(false);
 const displayLynch = ref(false);
@@ -97,8 +94,8 @@ let timer = null;
 
 const listStep = ref([
     {
-        gameScript: 'Án mạng kinh hoàng',
-        modScript: `Thông báo cho mọi người biết đêm qua ai bị chết`,
+        gameScript: 'Kết quả của một đêm kinh hoàng',
+        modScript: 'Thông báo cho mọi người biết đêm qua ai bị chết',
         action: ['showResult']
     },
     {
@@ -107,20 +104,20 @@ const listStep = ref([
         action: ['discuss']
     },
     {
-        gameScript: 'Dân làng phẫn nộ',
-        modScript: 'Chọn 1 người nhiều phiếu bầu nhất lên dàn treo',
+        gameScript: 'Dân làng phẫn nộ, họ quyết định sẽ có 1 người phải chết',
+        modScript: 'Chọn người có nhiều phiếu bầu nhất lên dàn treo',
         action: ['chooseLynch']
     },
     {
-        gameScript: 'Đêm đen kéo tới',
-        modScript: 'Ra lệnh cho mọi người nhắm mắt',
+        gameScript: 'Đêm đen lại kéo tới',
+        modScript: 'Ra lệnh cho mọi người nhắm mắt đi ngủ',
         action: ['showLogDayOne']
     }
 ])
 
 const nextStep = () => {
     if (step.value > (listStep.value.length - 1)) {
-        alert('Vui lòng tới đêm');
+        alert('Vui lòng tới ban đêm');
         return;
     }
 

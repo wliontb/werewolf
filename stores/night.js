@@ -21,6 +21,10 @@ export const useNightStore = defineStore('night', () => {
         protectID.value = 0;
     }
 
+    const incrementNight = () => {
+        nightNumber.value++;
+    }
+
     const setProtectID = (idPlayer) => {
         if(game.addProtectHistory(idPlayer)) {
             protectID.value = idPlayer;
@@ -31,7 +35,7 @@ export const useNightStore = defineStore('night', () => {
         aimID.value = idPlayer;
         //nếu thợ săn đã chết từ trước
         if(player.getPlayerRoleHunter().alive == false) {
-            player.setDead(aimID.value, 'hunter');
+            addPlayerKilledByHunt(aimID.value);
         }
     }
 
@@ -51,6 +55,38 @@ export const useNightStore = defineStore('night', () => {
         }
     }
 
+    const addPlayerKilledByWitch = (idPlayer) => {
+        if(killedByWitch.value.includes(idPlayer)){
+            alert('Người chơi này đã bị hạ độc!')
+            return;
+        }
+        if(player.setDead(idPlayer, 'witch')) {
+            killedByWitch.value.push(idPlayer);
+        }
+    }
+
+    const removePlayerKilledByWitch = (idPlayer) => {
+        if(killedByWitch.value.includes(idPlayer)){
+            killedByWitch.value = killedByWitch.value.filter(item => item != idPlayer);
+        }
+    }
+
+    const addPlayerKilledByHunt = (idPlayer) => {
+        if(killedByHunt.value.includes(idPlayer)){
+            alert('Người chơi này đã bị bắn từ trước!')
+            return;
+        }
+        if(player.setDead(idPlayer, 'hunter')) {
+            killedByHunt.value.push(idPlayer);
+        }
+    }
+
+    const removePlayerKilledByHunt = (idPlayer) => {
+        if(killedByHunt.value.includes(idPlayer)){
+            killedByHunt.value = killedByHunt.value.filter(item => item != idPlayer);
+        }
+    }
+
     return {
         $reset,
         nightNumber,
@@ -62,6 +98,11 @@ export const useNightStore = defineStore('night', () => {
         setProtectID,
         addPlayerKilledByWolf,
         removePlayerKilledByWolf,
-        setAimID
+        setAimID,
+        addPlayerKilledByWitch,
+        removePlayerKilledByWitch,
+        addPlayerKilledByHunt,
+        removePlayerKilledByHunt,
+        incrementNight
     }
 })

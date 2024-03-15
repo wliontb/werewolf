@@ -9,7 +9,7 @@
             Người chơi - Player
         </NuxtLink>
         <button @click="resetAll"
-            class="bg-red-500 rounded p-2 w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-red-800">
+            class="bg-red-800 rounded p-2 text-red-500 w-1/2 text-md mx-auto text-center border-red-500 border-2 uppercase font-medium hover:text-white">
             Reset tất cả cài đặt
         </button>
     </div>

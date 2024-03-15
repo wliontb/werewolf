@@ -23,6 +23,26 @@ export const useGameStore = defineStore('game', () => {
         totalPlayer.value = number;
     }
 
+    const setTotalRole = (number) => {
+        totalRole.value = number;
+    }
+
+    const setTotalWolf = (number) => {
+        totalWolf.value = number;
+    }
+
+    const setTotalAlive = (number) => {
+        totalAlive.value = number;
+    }
+
+    const setTotalDead = (number) => {
+        totalDead.value = number;
+    }
+
+    const setTotalWolfLive = (number) => {
+        totalWolfLive.value = number;
+    }
+
     const addProtectHistory = (idPlayer) => {
         if(historyProtect.value.length > 0){
             if(historyProtect.value[historyProtect.value.length - 1] == idPlayer) {
@@ -45,7 +65,8 @@ export const useGameStore = defineStore('game', () => {
         totalAlive,
         totalDead,
         totalWolfLive,
-        setTotalPlayer,
-        addProtectHistory
+        setTotalPlayer, addProtectHistory,
+        setTotalRole, setTotalWolf,
+        setTotalAlive, setTotalDead, setTotalWolfLive
     }
 }, {persist: true})

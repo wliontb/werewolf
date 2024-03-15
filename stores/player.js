@@ -6,6 +6,8 @@ export const usePlayerStore = defineStore('player', () => {
     const game = useGameStore();
     const night = useNightStore();
     const role = useRoleStore();
+
+    const playerOut = ref([]);
     
     const player = ref([
         {
@@ -23,6 +25,20 @@ export const usePlayerStore = defineStore('player', () => {
             roleID: 1,
             alive: true,
         }];
+
+        playerOut.value = [];
+    }
+
+    const setPlayer = (playerArr) => {
+        player.value = [...playerArr];
+    }
+
+    const pushPlayerOut = (playerArr) => {
+        playerOut.value = [...playerOut.value, ...playerArr];
+    }
+
+    const setPlayerOut = (playerArr) => {
+        playerOut.value = [...playerArr];
     }
 
     const resetRole = () => {
@@ -67,6 +83,10 @@ export const usePlayerStore = defineStore('player', () => {
         return player.value.filter(item => item.alive == true);
     }
 
+    const getPlayerDead = () => {
+        return player.value.filter(item => item.alive == false);
+    }
+
     const getPlayerByID = (id) => {
         return player.value.find(item => item.id == id);
     }
@@ -83,6 +103,11 @@ export const usePlayerStore = defineStore('player', () => {
         }
         player.value.forEach(item => {
             if (item.id === idPlayer) {
+                if(idRole == 2) { //add total wolf
+                    const totalWolfCurrent = game.totalWolf;
+                    game.setTotalWolf(totalWolfCurrent + 1);
+                    game.setTotalWolfLive(game.totalWolf);
+                }
                 item.roleID = idRole;
             }
         });
@@ -111,13 +136,15 @@ export const usePlayerStore = defineStore('player', () => {
                             if(night.protectID == idPlayer) {
                                 alert('Sói cắn trúng người được bảo vệ!');
                                 result = false;
-                            } else if(item.roleID == 5) { //cắn trúng thợ săn
-                                alert('Sói cắn trúng thợ săn');
-                                item.alive = false;
-                                setDead(night.aimID, 'hunter');
-                                result = true;
                             } else {
-                                alert(`${item.name} đã bị sói cắn chết`);
+                                if(item.roleID == 5) { //cắn trúng thợ săn
+                                    alert('Sói cắn trúng thợ săn');
+                                    night.addPlayerKilledByHunt(night.aimID);
+                                } else if(item.roleID == 2) { //cắn trúng sói
+                                    game.setTotalWolfLive(game.totalWolfLive - 1);
+                                } else {
+                                    alert(`${item.name} đã bị sói cắn chết`);
+                                }
                                 item.alive = false;
                                 result = true;
                             }
@@ -125,6 +152,13 @@ export const usePlayerStore = defineStore('player', () => {
                         case 'witch':
                             if(role.witchHasPoison) {
                                 role.witchUsingPoison();
+                                if(item.roleID == 2) { //nếu là sói
+                                    game.setTotalWolfLive(game.totalWolfLive - 1);
+                                }
+                                if(item.roleID == 5) { //ném trúng thợ săn
+                                    alert('Ném độc chết thợ săn');
+                                    night.addPlayerKilledByHunt(night.aimID);
+                                }
                                 item.alive = false;
                                 result = true;
                             } else {
@@ -134,8 +168,23 @@ export const usePlayerStore = defineStore('player', () => {
                             break;
                         case 'hunter':
                             alert(`${item.name} đã bị thợ săn bắn chết`);
+                            if(item.roleID == 2) { //nếu là sói
+                                game.setTotalWolfLive(game.totalWolfLive - 1);
+                            }
                             item.alive = false;
                             result = true;
+                            break;
+                        case 'lynch':
+                            alert(`${item.name} đã bị treo cổ chết`);
+                            if(item.roleID == 2) { //nếu là sói
+                                game.setTotalWolfLive(game.totalWolfLive - 1);
+                            }
+                            if(item.roleID == 5) { //nếu là thợ săn
+                                setDead(night.aimID, 'hunter');
+                            }
+                            item.alive = false;
+                            result = true;
+                            break;
                         default:
                             break;
                     }
@@ -149,15 +198,10 @@ export const usePlayerStore = defineStore('player', () => {
         if (role.witchHasProtect) {
             player.value.forEach(item => {
                 if (item.id == idPlayer) {
-                    if (night.protectID == idPlayer) {
-                        alert('Người này đã được bảo vệ, không cần cứu');
-                        return false;
-                    } else {
-                        role.witchUsingProtect();
-                        night.removePlayerKilledByWolf(idPlayer);
-                        item.alive = true;
-                        return true;
-                    }
+                    role.witchUsingProtect();
+                    night.removePlayerKilledByWolf(idPlayer);
+                    item.alive = true;
+                    return true;
                 }
             });
         } else {
@@ -169,11 +213,16 @@ export const usePlayerStore = defineStore('player', () => {
     return {
         $reset,
         player,
+        playerOut,
         resetRole,
+        setPlayerOut,
+        pushPlayerOut,
+        setPlayer,
         remove,
         add,
         getPlayerFree,
         getPlayerAlive,
+        getPlayerDead,
         getPlayerByID,
         setRole,
         setDead,

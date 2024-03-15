@@ -15,10 +15,10 @@
                         <div class="flex-col justify-center items-center text-center mb-3">
                             <p class="text-black font-bold">Kết quả:</p>
                             <p class="text-black">
-                                Đêm qua có {{ nightStore.playerDeadArr.length }} người chết
+                                Đêm qua có {{ nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length }} người chết
                             </p>
                             <p class="text-black">
-                                Kết luận: {{ playerStore.getCountWolfAlive().length == 0 ? 'Dân làng thắng' : playerStore.getCountWolfAlive() >= playerStore.getCountHumanAlive() ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
+                                Kết luận: {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive == (gameStore.totalAlive/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
                             </p>
                         </div>
 
@@ -46,19 +46,19 @@
                     </div>
                 </div>
                 <!-- Vote Dead -->
-                <div v-if="displayVote">
+                <div v-if="displayLynch">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn 1 người bước lên giàn treo:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
-                                style="width: 14rem; height: 40px" v-model="playerVoteChoose">
-                                <option v-for="player in playerStore.playerAlive()" :id="player.id" :value="player.id">
+                                style="width: 14rem; height: 40px" v-model="playerLynchChoose">
+                                <option v-for="player in playerStore.getPlayerAlive()" :id="player.id" :value="player.id">
                                     {{ player.name }}</option>
                             </select>
                         </div>
 
                         <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3"
-                            style="margin: auto; height: 35px;" @click="choosePlayerVote">Chọn</button>
+                            style="margin: auto; height: 35px;" @click="choosePlayerLynch">Chọn</button>
                     </div>
                 </div>
             </div>
@@ -76,18 +76,20 @@
 <script setup>
 import { usePlayerStore } from '@/stores/player';
 import { useNightStore } from '@/stores/night';
+import { useGameStore } from '@/stores/game';
 
 const playerStore = usePlayerStore();
 const nightStore = useNightStore();
+const gameStore = useGameStore();
 
 const step = ref(0);
 const gameScript = ref('Bình minh ló rạng');
 const modScript = ref('Ra lệnh cho mọi người mở mắt');
 
 const displayResult = ref(false);
-const displayVote = ref(false);
+const displayLynch = ref(false);
 const displayCountdown = ref(false);
-const playerVoteChoose = ref(0);
+const playerLynchChoose = ref(0);
 
 const countdown = ref('05:00');
 const counting = ref(false);
@@ -107,7 +109,12 @@ const listStep = ref([
     {
         gameScript: 'Dân làng phẫn nộ',
         modScript: 'Chọn 1 người nhiều phiếu bầu nhất lên dàn treo',
-        action: ['chooseVote']
+        action: ['chooseLynch']
+    },
+    {
+        gameScript: 'Đêm đen kéo tới',
+        modScript: 'Ra lệnh cho mọi người nhắm mắt',
+        action: ['showLogDayOne']
     }
 ])
 
@@ -141,26 +148,20 @@ const triggerAction = (actionName) => {
             displayResult.value = false;
             displayCountdown.value = true;
             break;
-        case 'chooseVote':
+        case 'chooseLynch':
             displayCountdown.value = false;
-            displayVote.value = true;
+            displayLynch.value = true;
             break;
         case 'showLogDayOne':
-
+            displayLynch.value = false;
             break;
         default:
             break;
     }
 }
 
-const choosePlayerVote = () => {
-    playerStore.setDead(playerVoteChoose.value, 'vote');
-    const playerVoted = playerStore.playerWithID(playerVoteChoose.value);
-    //thợ săn chết trùm
-    if (playerVoted.role == 5) {
-        playerStore.setDead(playerStore.getPlayerAim().id, 'hunter');
-    }
-
+const choosePlayerLynch = () => {
+    playerStore.setDead(playerLynchChoose.value, 'lynch');
     nextStep();
 }
 

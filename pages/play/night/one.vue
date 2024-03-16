@@ -149,7 +149,7 @@
                         <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
                             @click="choosePlayerWitchKill">Bỏ qua</button>
                     </div>
-                    <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white text-black text-center">
                         Phù thủy đã dùng hết Thuốc Độc!
                     </div>
                 </div>
@@ -172,13 +172,13 @@
                     </div>
                 </div>
             </div>
-            <button
-                class="bg-green-500 rounded p-2 w-1/2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-green-600 mt-6"
-                @click="nextStep">
-                Tiếp theo</button>
-            <NuxtLink v-if="step == listStep.length" to="/play/day/one"
+            <NuxtLink v-if="step == listStep.length" to="/play/day/every"
                 class="bg-orange-500 rounded p-2 w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-orange-800">
-                Qua Đêm</NuxtLink>
+                Qua đêm</NuxtLink>
+            <button v-else class="bg-green-500 rounded p-2 w-1/2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-green-600 mt-6"
+            @click="nextStep">
+            Tiếp theo</button>
+            
         </div>
     </div>
     <LogBar />
@@ -410,4 +410,4 @@ const choosePlayerHunterAim = () => {
     nightStore.setAimID(playerAimChoose.value);
     nextStep();
 }
-</script>~/stores/player
+</script>

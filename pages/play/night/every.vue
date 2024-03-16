@@ -14,7 +14,7 @@
                 <div v-if="setProtect">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300" v-if="playerStore.player.filter(item => item.roleID == 3 && item.alive == true).length > 0">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Chọn người muốn bảo vệ khỏi sói:</label>
+                            <label class="flex-1 text-black">Chọn người được bảo vệ:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; height: 40px" v-model="playerProtectChoose">
                                 <option v-for="player in playerStore.player" :id="player.id" :value="player.id">{{
@@ -46,16 +46,16 @@
                             </select>
                         </div>
                         <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="choosePlayerKill">Đánh chén</button>
+                            @click="choosePlayerKill">Chọn</button>
                         <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="nextStep">Tối nay ăn chay</button>
+                            @click="nextStep">Đêm nay ăn chay</button>
                     </div>
                 </div>
                 <!-- Set Lookup -->
                 <div v-if="setLookup">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white" v-if="playerStore.player.filter(item => item.roleID == 6 && item.alive == true).length > 0">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Đêm nay tiên tri muốn soi ai:</label>
+                            <label class="flex-1 text-black">Chọn người tiên tri muốn soi:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; height: 40px" v-model="playerLookupChoose">
                                 <option v-for="player in playerStore.player.filter(item => item.roleID !== 6)"
@@ -65,6 +65,7 @@
 
                         <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
                             @click="choosePlayerLookup">Chọn</button>
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800" @click="nextStep">Không soi ai</button>
                     </div>
                     <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
                         <div class="flex justify-center items-center mb-3 text-black">
@@ -108,7 +109,7 @@
                         <div v-if="roleStore.witchHasPoison && playerStore.player.filter(item => item.roleID == 4 && item.alive == true).length > 0"
                             class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-red-200">
                             <div class="flex justify-center items-center mb-3 ">
-                                <label class="flex-1 text-black">Đêm nay Phù Thủy muốn hạ độc ai:</label>
+                                <label class="flex-1 text-black">Chọn người để dùng Thuốc độc:</label>
                                 <select class="text-black rounded flex-2 border border-slate-800"
                                     style="width: 14rem; height: 40px" v-model="witchKillChoose">
                                     <option v-for="player in playerStore.getPlayerAlive()" :id="player.id"
@@ -132,7 +133,7 @@
                 <div v-if="setHunterAim">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white" v-if="playerStore.player.filter(item => item.roleID == 5 && item.alive == true).length > 0">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Đêm nay Thợ Săn muốn ngắm bắn ai:</label>
+                            <label class="flex-1 text-black">Chọn người thợ săn muốn ngắm bắn:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; height: 40px" v-model="playerAimChoose">
                                 <option v-for="player in playerStore.player" :id="player.id" :value="player.id">{{
@@ -141,9 +142,9 @@
                         </div>
 
                         <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="choosePlayerHunterAim">Ngắm bắn</button>
+                            @click="choosePlayerHunterAim">Chọn</button>
                         <button class="bg-orange-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
-                            @click="choosePlayerHunterAim">Không ngắm</button>
+                            @click="choosePlayerHunterAim">Không bắn ai</button>
                     </div>
                     <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
                         <div class="flex justify-center items-center mb-3 text-black">
@@ -183,8 +184,8 @@ definePageMeta({
 })
 
 const step = ref(0);
-const gameScript = ref('Tất cả đi ngủ');
-const modScript = ref('Quản trò ra lệnh cho mọi người đi ngủ');
+const gameScript = ref('Màn đêm buông xuống, dân làng chìm vào giấc ngủ');
+const modScript = ref('Quản trò ra lệnh cho tất cả mọi người đi ngủ');
 
 const setProtect = ref(false);
 const setKill = ref(false);
@@ -202,39 +203,39 @@ const playerAimChoose = ref(0);
 
 const listStep = ref([
     {
-        gameScript: 'Bảo vệ muốn bảo vệ ai',
-        modScript: 'Chọn người để bảo vệ',
+        gameScript: 'Bảo vệ quyết tâm cứu mọi người',
+        modScript: 'Hỏi bảo vệ muốn bảo vệ ai?',
         action: ['guardianProtect']
     },
     {
-        gameScript: 'Sói muốn cắn ai',
-        modScript: 'Ra lệnh cho sói cắn',
+        gameScript: 'Sói ngày càng hung hãn và thèm khát máu người',
+        modScript: 'Hỏi xem sói đêm nay muốn cắn ai',
         action: ['wolfKill']
     },
     {
-        gameScript: 'Tiên tri soi người',
-        modScript: 'Tiên tri soi đi',
+        gameScript: 'Tiên tri muốn xem có điều gì khác thường trong làng',
+        modScript: 'Hỏi tiên tri muốn soi xem ai là sói?',
         action: ['ftLookup']
     },
     {
-        gameScript: 'Phù thủy ném thuốc giải',
-        modScript: 'Phù thủy ném thuốc giải',
+        gameScript: 'Phù thủy rủ lòng từ bi',
+        modScript: 'Đêm nay có người chết, hỏi xem phù thủy muốn cứu ai?',
         action: ['witchHelp']
     },
     {
-        gameScript: 'Phù thủy ném thuốc độc',
-        modScript: 'Phù thủy ném thuốc độc',
+        gameScript: 'Phù thủy nở nụ cười man rợ',
+        modScript: 'Hỏi xem phù thủy muốn hạ độc ai?',
         action: ['witchKill']
     },
     {
-        gameScript: 'Thợ săn ngắm bắn',
-        modScript: 'Chọn người thợ săn muốn bắn',
+        gameScript: 'Súng đã lên nòng',
+        modScript: 'Hỏi thợ săn muốn ngắm bắn ai?',
         action: ['hunterAim']
     },
     {
-        gameScript: 'Hết đêm',
+        gameScript: 'Đêm kinh hoàng đã trôi quav',
         modScript: 'Qua đêm, chuẩn bị công bố kết quả',
-        action: ['showLogNightOne']
+        action: ['showLogNight']
     }
 ])
 
@@ -284,7 +285,7 @@ const triggerAction = (actionName) => {
             setWitchKill.value = false;
             setHunterAim.value = true;
             break;
-        case 'showLogNightOne':
+        case 'showLogNight':
             setHunterAim.value = false;
             break;
         default:
@@ -325,4 +326,4 @@ const choosePlayerHunterAim = () => {
     nightStore.setAimID(playerAimChoose.value);
     nextStep();
 }
-</script>~/stores/player
+</script>

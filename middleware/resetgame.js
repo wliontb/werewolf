@@ -7,11 +7,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
     const roleStore = useRoleStore();
     const gameStore = useGameStore();
 
-    if(from.path == '/play/day/every') {
+    if(from.path == '/play/day/every' || from.path == '/play/log') {
         if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2)) {
             gameStore.$reset();
             playerStore.setPlayer([...playerStore.player, ...playerStore.playerOut]);
-            gameStore.setTotalPlayer(playerStore.player);
+            gameStore.setTotalPlayer(playerStore.player.length);
             return;
         }
     }

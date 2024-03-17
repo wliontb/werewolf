@@ -1,6 +1,6 @@
 <template>
-    <div class="flex w-full gap-2">
-        <div class="w-4/5 flex flex-col">
+    <div class="flex flex-col md:flex-row w-full gap-2">
+        <div class="w-full md:w-4/5 flex flex-col">
             <BadgeAmberLeft>
                 <h1>Tổng kết game đấu:</h1>
             </BadgeAmberLeft>
@@ -31,11 +31,11 @@
             </div>
 
         </div>
-        <div class="w-1/5 flex flex-col">
+        <div class="flex flex-col w-full md:w-1/5">
             <BadgeAmberRight>
                 <h1>Thông số người chơi</h1>
             </BadgeAmberRight>
-            <LogBar class="w-full"/>
+            <LogBar/>
         </div>
     </div>
 </template>

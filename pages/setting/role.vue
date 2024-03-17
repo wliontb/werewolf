@@ -5,7 +5,7 @@
                 <h1 class="font-bold">Chọn vai trò xuất hiện trong Ván Đấu:</h1>
             </div>
             <div class="flex flex-wrap">
-                <div class="p-1 w-1/2" v-for="role in roleStore.role" :id="role.id">
+                <div class="p-1 w-full md:w-1/2" v-for="role in roleStore.role" :id="role.id">
                     <div class="flex border border-white rounded p-3 bg-green-600 hover:bg-green-400">
                         <div class="w-2/3">{{ role.name }}</div>
                         <input type="checkbox" class="rounded w-1/3" :checked="role.active" @change="roleStore.toggleActive(role.id)" :disabled="role.id == 1 || role.id == 2">
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="flex">
-                <NuxtLink to="/setting/player" class="bg-orange-500 rounded p-2 w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-orange-800">Tiếp tục</NuxtLink>
+                <NuxtLink to="/setting/player" class="bg-orange-500 rounded p-2 w-full md:w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-orange-800">Tiếp tục</NuxtLink>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-4 w-4/5">
+    <div class="flex flex-col gap-4 mb-4 w-full md:w-4/5">
         <div class="flex flex-col gap-2">
             <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng đầu tiên</div>
             <div class="flex-col">
@@ -11,10 +11,10 @@
                 </div>
                 <!-- Pickrole -->
                 <div v-if="setRole">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300"
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-slate-300"
                         v-if="playerStore.getPlayerFree().length > 0">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Chọn người chơi giữ Role này:</label>
+                            <label class="flex-1 text-black">Chọn người chơi Role <span class="text-red-500 font-semibold">{{ roleStore.getByID(roleChoose).name }}</span></label>
                             <select class="text-black rounded flex-2 border border-slate-800 bg-slate-200"
                                 style="width: 14rem; height: 40px" v-model="playerChoose">
                                 <option v-for="player in playerStore.getPlayerFree()" :id="player.id"
@@ -33,10 +33,10 @@
                 </div>
                 <!-- PickroleMulti -->
                 <div v-if="setRoleMulti">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300"
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-slate-300"
                         v-if="playerStore.getPlayerFree().length > 0">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Chọn những người chơi giữ Role này:</label>
+                            <label class="flex-1 text-black">Chọn những người chơi Role <span class="text-red-500 font-semibold">{{ roleStore.getByID(roleChoose).name }}</span>(Có thể chọn nhiều)</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; min-height: 40px" v-model="playerChooseMulti" multiple>
                                 <option v-for="player in playerStore.getPlayerFree()" :id="player.id"
@@ -55,7 +55,7 @@
                 </div>
                 <!-- Set Protected -->
                 <div v-if="setProtect">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-slate-300">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người được bảo vệ:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -72,7 +72,7 @@
                 </div>
                 <!-- Set Wolf Action -->
                 <div v-if="setKill">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-red-300">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-red-300">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người sói muốn ăn thịt:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -89,7 +89,7 @@
                 </div>
                 <!-- Set Lookup -->
                 <div v-if="setLookup">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-slate-300">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người tiên tri muốn soi:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -107,7 +107,7 @@
                 <!-- Set Witch Action -->
                 <div v-if="setWitchHelp">
                     <div v-if="roleStore.witchHasProtect"
-                        class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-green-200 mb-4">
+                        class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-green-200 mb-4">
                         <div class="flex justify-center items-center mb-3" v-if="nightStore.killedByWolf.length > 0">
                             <label class="flex-1 text-black">Chọn người để dùng Thuốc Hồi sinh:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -134,7 +134,7 @@
                 </div>
                 <div v-if="setWitchKill">
                     <div v-if="roleStore.witchHasPoison"
-                        class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-red-200">
+                        class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-red-200">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người để dùng Thuốc độc:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -155,7 +155,7 @@
                 </div>
                 <!-- Set Hunter Action -->
                 <div v-if="setHunterAim">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người thợ săn muốn ngắm bắn:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"

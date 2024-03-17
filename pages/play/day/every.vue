@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-4 w-4/5">
+    <div class="flex flex-col gap-4 w-full mb-4 md:w-4/5">
         <div class="flex flex-col gap-2">
             <div class="w-full text-red-500 font-bold uppercase text-2xl">Buổi sáng {{ nightStore.nightNumber == 1 ? 'thứ nhất' : `thứ ${nightStore.nightNumber}` }}</div>
             <div class="flex-col">
@@ -11,7 +11,7 @@
                 </div>
                 <!-- Result -->
                 <div v-if="displayResult">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-white">
                         <div class="flex-col justify-center items-center text-center mb-3">
                             <p class="text-black">
                                 <b>Kết quả:</b>  Đêm qua đã có {{ nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length }} người chết!
@@ -30,7 +30,7 @@
                 </div>
                 <!-- Countdown -->
                 <div v-if="displayCountdown">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-white">
                         <div class="mb-3 text-center">
                             <label class=" text-black">Đếm ngược thời gian tranh luận</label>
                         </div>
@@ -47,7 +47,7 @@
                 </div>
                 <!-- Vote Lynch -->
                 <div v-if="displayLynch">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn 1 người bước lên giàn treo:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -63,7 +63,7 @@
                 </div>
                 <!-- Display Log -->
                 <div v-if="displayLogDay">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-white">
                         <div class="flex-col justify-center items-center text-center mb-3">
                             <p class="text-black">
                                 <b class="text-red-500">Đã có chiến thắng chung cuộc:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}

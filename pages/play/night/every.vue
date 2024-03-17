@@ -12,7 +12,7 @@
                 <!-- End Pickrole -->
                 <!-- Set Protected -->
                 <div v-if="setProtect">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300" v-if="playerStore.player.filter(item => item.roleID == 3 && item.alive == true).length > 0">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-slate-300" v-if="playerStore.playerOut.filter(item => item.roleID == 3).length == 0">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người được bảo vệ:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -53,7 +53,7 @@
                 </div>
                 <!-- Set Lookup -->
                 <div v-if="setLookup">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white" v-if="playerStore.player.filter(item => item.roleID == 6 && item.alive == true).length > 0">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white" v-if="playerStore.playerOut.filter(item => item.roleID == 6).length == 0">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người tiên tri muốn soi:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -77,7 +77,7 @@
                 </div>
                 <!-- Set Witch Action -->
                     <div v-if="setWitchHelp">
-                        <div v-if="roleStore.witchHasProtect && playerStore.player.filter(item => item.roleID == 4 && item.alive == true).length > 0"
+                        <div v-if="roleStore.witchHasProtect && playerStore.playerOut.filter(item => item.roleID == 4).length == 0"
                             class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-green-200 mb-4">
                             <div class="flex justify-center items-center mb-3" v-if="nightStore.killedByWolf.length > 0">
                                 <label class="flex-1 text-black">Chọn người để dùng Thuốc Hồi sinh:</label>
@@ -99,14 +99,14 @@
                             <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto" @click="nextStep"
                                 v-if="nightStore.killedByWolf.length > 0">Không cứu</button>
                         </div>
-                        <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white text-black">
+                        <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white text-black text-center">
                             Phù thủy không thể hồi sinh do hết thuộc hoặc đã ngỏm!
-                            <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto text-white hover:bg-green-800"
                                 @click="nextStep">Bỏ qua</button>
                         </div>
                     </div>
                     <div v-if="setWitchKill">
-                        <div v-if="roleStore.witchHasPoison && playerStore.player.filter(item => item.roleID == 4 && item.alive == true).length > 0"
+                        <div v-if="roleStore.witchHasPoison && playerStore.playerOut.filter(item => item.roleID == 4).length == 0"
                             class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-red-200">
                             <div class="flex justify-center items-center mb-3 ">
                                 <label class="flex-1 text-black">Chọn người để dùng Thuốc độc:</label>
@@ -122,16 +122,16 @@
                             <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
                                 @click="nextStep">Bỏ qua</button>
                         </div>
-                        <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white text-black">
+                        <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white text-black text-center">
                             Phù thủy không thể hạ độc do hết thuộc hoặc đã ngỏm!
-                            <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                            <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto text-white hover:bg-green-800"
                                 @click="nextStep">Bỏ qua</button>
                         </div>
                     </div>
                 
                 <!-- Set Hunter Action -->
                 <div v-if="setHunterAim">
-                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white" v-if="playerStore.player.filter(item => item.roleID == 5 && item.alive == true).length > 0">
+                    <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white" v-if="playerStore.playerOut.filter(item => item.roleID == 5).length == 0">
                         <div class="flex justify-center items-center mb-3 ">
                             <label class="flex-1 text-black">Chọn người thợ săn muốn ngắm bắn:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
@@ -150,7 +150,7 @@
                         <div class="flex justify-center items-center mb-3 text-black">
                             Thợ săn đã chết
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto"
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto text-white hover:bg-green-800"
                             @click="nextStep">Bỏ qua</button>
                     </div>
                 </div>
@@ -240,6 +240,10 @@ const listStep = ref([
 ])
 
 const nextStep = () => {
+    if(step.value == 0) {
+        gameStore.addLogGame('Quản trò ra lệnh cho mọi người đi ngủ');
+    }
+    
     if (step.value > (listStep.value.length - 1)) {
         alert('Vui lòng qua đêm');
         return;

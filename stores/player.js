@@ -109,6 +109,7 @@ export const usePlayerStore = defineStore('player', () => {
                     game.setTotalWolfLive(game.totalWolf);
                 }
                 item.roleID = idRole;
+                game.addLogGame(`Quản trò đã chọn ${item.name} trở thành ${role.getByID(idRole).name}`);
             }
         });
     }
@@ -117,9 +118,11 @@ export const usePlayerStore = defineStore('player', () => {
         const playerFind = player.value.find(item => item.id == idPlayer);
         if(playerFind.roleID == 2) {
             alert(`${playerFind.name} chính là sói!`);
+            game.addLogGame(`Tiên tri đã soi trúng ${playerFind.name} là sói!`);
             return true;
         } else {
             alert(`${playerFind.name} không phải là sói!`);
+            game.addLogGame(`Tiên tri đã soi nhầm ${playerFind.name}!`);
             return false;
         }
     }
@@ -135,15 +138,18 @@ export const usePlayerStore = defineStore('player', () => {
                         case 'wolf':
                             if(night.protectID == idPlayer) {
                                 alert('Sói cắn trúng người được bảo vệ!');
+                                game.addLogGame(`Sói cắn trúng người được bảo vệ!`);
                                 result = false;
                             } else {
                                 if(item.roleID == 5) { //cắn trúng thợ săn
                                     alert('Sói cắn trúng thợ săn');
+                                    game.addLogGame(`Sói cắn trúng thợ săn!`);
                                     night.addPlayerKilledByHunt(night.aimID);
                                 } else if(item.roleID == 2) { //cắn trúng sói
                                     game.setTotalWolfLive(game.totalWolfLive - 1);
                                 } else {
                                     alert(`${item.name} đã bị sói cắn chết`);
+                                    game.addLogGame(`${item.name} đã bị sói cắn chết`);
                                 }
                                 item.alive = false;
                                 result = true;
@@ -154,9 +160,11 @@ export const usePlayerStore = defineStore('player', () => {
                                 role.witchUsingPoison();
                                 if(item.roleID == 2) { //nếu là sói
                                     game.setTotalWolfLive(game.totalWolfLive - 1);
+                                    game.addLogGame(`Phù thủy đã ném độc chết sói!`);
                                 }
                                 if(item.roleID == 5) { //ném trúng thợ săn
                                     alert('Ném độc chết thợ săn');
+                                    game.addLogGame(`Phù thủy đã ném độc chết thợ săn!`);
                                     night.addPlayerKilledByHunt(night.aimID);
                                 }
                                 item.alive = false;
@@ -168,6 +176,7 @@ export const usePlayerStore = defineStore('player', () => {
                             break;
                         case 'hunter':
                             alert(`${item.name} đã bị thợ săn bắn chết`);
+                            game.addLogGame(`${item.name} đã bị thợ săn bắn chết`);
                             if(item.roleID == 2) { //nếu là sói
                                 game.setTotalWolfLive(game.totalWolfLive - 1);
                             }
@@ -176,6 +185,7 @@ export const usePlayerStore = defineStore('player', () => {
                             break;
                         case 'lynch':
                             alert(`${item.name} đã bị treo cổ chết`);
+                            game.addLogGame(`${item.name} đã bị treo cổ chết`);
                             if(item.roleID == 2) { //nếu là sói
                                 game.setTotalWolfLive(game.totalWolfLive - 1);
                             }
@@ -201,6 +211,7 @@ export const usePlayerStore = defineStore('player', () => {
                     role.witchUsingProtect();
                     night.removePlayerKilledByWolf(idPlayer);
                     item.alive = true;
+                    game.addLogGame(`Phù thủy đã cứu mạng ${item.name}!`);
                     return true;
                 }
             });

@@ -23,8 +23,8 @@
 
                         <button v-if="!(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2))" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="nextStep">Tiếp tục</button>
                         <div class="flex flex-col gap-1" v-else>
-                            <NuxtLink to="/setting/player" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800 text-center">Ván đấu mới</NuxtLink>
-                            <button class="bg-orange-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="displayMessageUpdate">Xem lại log ván đấu</button>
+                            <NuxtLink to="/setting/player" class="bg-green-500 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-700 text-center">Ván đấu mới</NuxtLink>
+                            <NuxtLink to="/play/log" class="bg-orange-500 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-orange-700 text-center">Xem lại log ván đấu</NuxtLink>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                             </p>
                         </div>
                         <NuxtLink to="/setting/player" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800 text-center">Ván đấu mới</NuxtLink>
-                        <button class="bg-orange-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="displayMessageUpdate">Xem lại log ván đấu</button>
+                        <NuxtLink to="/play/log" class="bg-orange-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800 text-center">Xem lại log ván đấu</NuxtLink>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 class="bg-orange-500 rounded p-2 w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-orange-800">
                 Tới buổi tối
             </NuxtLink>
-            <button v-if="(step != listStep.length || displayLogDay) && !(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2))" class="bg-green-500 rounded p-2 w-1/2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-green-600 mt-6" @click="nextStep">
+            <button v-if="(step != listStep.length && !displayLogDay)" class="bg-green-500 rounded p-2 w-1/2 text-md mx-auto  text-center border-white border-2 uppercase font-bold hover:bg-green-600 mt-6" @click="nextStep">
                 Tiếp theo
             </button>
         </div>
@@ -132,6 +132,10 @@ const listStep = ref([
 ])
 
 const nextStep = () => {
+    if(step.value == 0) {
+        gameStore.addLogGame('Quản trò ra lệnh cho mọi người thức giấc');
+    }
+
     if (step.value > (listStep.value.length - 1)) {
         alert('Vui lòng chọn tới đêm');
         return;
@@ -156,6 +160,12 @@ const triggerAction = (actionName) => {
     switch (actionName) {
         case 'showResult':
             displayResult.value = true;
+            gameStore.addLogGame(`Đêm qua đã có ${nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length} người chết!`);
+            if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2)){
+                gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : ''}`);
+            } else {
+                gameStore.addLogGame('Game đấu vẫn tiếp tục');
+            }
             break;
         case 'discuss':
             displayResult.value = false;
@@ -169,6 +179,9 @@ const triggerAction = (actionName) => {
             displayLynch.value = false;
             if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2)){
                 displayLogDay.value = true;
+                gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : ''}`);
+            } else {
+                gameStore.addLogGame('Game đấu vẫn tiếp tục');
             }
             break;
         default:
@@ -176,11 +189,8 @@ const triggerAction = (actionName) => {
     }
 }
 
-const displayMessageUpdate = () => {
-    alert('Tính năng sẽ sớm ra mắt');
-}
-
 const choosePlayerLynch = () => {
+    gameStore.addLogGame(`Mọi người quyết định sẽ treo cổ ${playerStore.getPlayerByID(playerLynchChoose.value).name}!`);
     playerStore.setDead(playerLynchChoose.value, 'lynch');
     nextStep();
 }

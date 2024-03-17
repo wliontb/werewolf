@@ -23,7 +23,7 @@
                         </div>
 
                         <button
-                            class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 border-white border mx-auto hover:bg-green-800"
+                            class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 border-white border mx-auto hover:bg-green-800 disabled:bg-green-300"
                             @click="choosePlayerRole">Chọn</button>
                     </div>
                     <div v-else>
@@ -289,6 +289,10 @@ const listStep = ref([
 ])
 
 const nextStep = () => {
+    if(step.value == 0) {
+        gameStore.addLogGame('Quản trò ra lệnh cho mọi người đi ngủ');
+    }
+
     if (step.value > (listStep.value.length - 1)) {
         alert('Vui lòng qua đêm');
         return;

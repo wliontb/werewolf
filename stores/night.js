@@ -36,6 +36,7 @@ export const useNightStore = defineStore('night', () => {
     const setProtectID = (idPlayer) => {
         if(game.addProtectHistory(idPlayer)) {
             protectID.value = idPlayer;
+            game.addLogGame(`${player.getPlayerByID(idPlayer).name} đã được bảo vệ`);
             return true;
         }
         return false;
@@ -43,6 +44,7 @@ export const useNightStore = defineStore('night', () => {
 
     const setAimID = (idPlayer) => {
         aimID.value = idPlayer;
+        game.addLogGame(`${player.getPlayerByID(idPlayer).name} đã bị thợ săn ngắm bắn`);
         //nếu thợ săn đã chết từ trước
         if(player.getPlayerRoleHunter().alive == false) {
             addPlayerKilledByHunt(aimID.value);

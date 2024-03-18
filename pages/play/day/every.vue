@@ -3,7 +3,7 @@
         <div class="flex flex-col gap-2">
             <div class="w-full text-red-500 font-bold uppercase text-2xl">Buổi sáng {{ nightStore.nightNumber == 1 ? 'thứ nhất' : `thứ ${nightStore.nightNumber}` }}</div>
             <div class="flex-col">
-                <div class="py-1 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
+                <div class="py-3 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
                     <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
                     <p class="text-sm">{{ gameScript }}</p>
                     <p class="font-semibold text-yellow-300 mt-2 underline ">Hành động Quản trò:</p>
@@ -21,10 +21,10 @@
                             </p>
                         </div>
 
-                        <button v-if="!(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2))" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="nextStep">Tiếp tục</button>
+                        <button v-if="!(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2))" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-green-800" @click="nextStep">Tiếp tục</button>
                         <div class="flex flex-col gap-1" v-else>
-                            <NuxtLink to="/setting/player" class="bg-green-500 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-700 text-center">Ván đấu mới</NuxtLink>
-                            <NuxtLink to="/play/log" class="bg-orange-500 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-orange-700 text-center">Xem lại log ván đấu</NuxtLink>
+                            <NuxtLink to="/setting/player" class="bg-green-500 rounded text-sm py-2 px-1.5 uppercase w-40 mx-auto hover:bg-green-700 text-center">Ván đấu mới</NuxtLink>
+                            <NuxtLink to="/play/log" class="bg-orange-500 rounded text-sm py-2 px-1.5 uppercase w-40 mx-auto hover:bg-orange-700 text-center">Xem lại log ván đấu</NuxtLink>
                         </div>
                     </div>
                 </div>
@@ -37,10 +37,10 @@
                         <div class="mb-3 text-center text-red-500">
                             {{ countdown }}
                         </div>
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="startCountdown" v-if="!counting">
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-green-800" @click="startCountdown" v-if="!counting">
                             Đếm ngược
                         </button>
-                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800" @click="nextStep">
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-red-800" @click="nextStep">
                             Bỏ qua
                         </button>
                     </div>
@@ -49,7 +49,7 @@
                 <div v-if="displayLynch">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-white">
                         <div class="flex justify-center items-center mb-3 ">
-                            <label class="flex-1 text-black">Chọn 1 người bước lên giàn treo:</label>
+                            <label class="flex-1 text-black min-w-60 p-3">Chọn 1 người bước lên giàn treo:</label>
                             <select class="text-black rounded flex-2 border border-slate-800"
                                 style="width: 14rem; height: 40px" v-model="playerLynchChoose">
                                 <option v-for="player in playerStore.getPlayerAlive()" :id="player.id" :value="player.id">
@@ -57,8 +57,8 @@
                             </select>
                         </div>
 
-                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800" @click="choosePlayerLynch">Chọn</button>
-                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800" @click="nextStep">Không treo cổ ai cả</button>
+                        <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-green-800" @click="choosePlayerLynch">Chọn</button>
+                        <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-red-800" @click="nextStep">Không treo cổ ai cả</button>
                     </div>
                 </div>
                 <!-- Display Log -->
@@ -69,8 +69,8 @@
                                 <b class="text-red-500">Đã có chiến thắng chung cuộc:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
                             </p>
                         </div>
-                        <NuxtLink to="/setting/player" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-green-800 text-center">Ván đấu mới</NuxtLink>
-                        <NuxtLink to="/play/log" class="bg-orange-600 rounded text-sm py-1 px-1.5 uppercase w-1/3 mx-auto hover:bg-red-800 text-center">Xem lại log ván đấu</NuxtLink>
+                        <NuxtLink to="/setting/player" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-green-800 text-center">Ván đấu mới</NuxtLink>
+                        <NuxtLink to="/play/log" class="bg-orange-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-red-800 text-center">Xem lại log ván đấu</NuxtLink>
                     </div>
                 </div>
             </div>

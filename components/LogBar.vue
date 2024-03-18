@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col md:text-right">
+    <div class="flex flex-col md:text-right text-sm">
         <ul class="flex flex-row md:flex-col w-full flex-wrap">
             <li class="bg-slate-400 border-b border border-black w-1/2 md:w-full" v-for="player in playerStore.player"
                 :id="player.id">

@@ -7,7 +7,7 @@
                 <h2 class="italic text-red-500 font-semibold">Moderator Support Tool</h2>
             </div>
         </div>
-        <div class="flex flex-col md:flex-row flex-1 mt-10 p-2">
+        <div class="flex flex-col md:flex-row flex-1 p-2 justify-center items-center">
             <slot />
         </div>
         <!-- Footer -->

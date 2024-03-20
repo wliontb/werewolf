@@ -128,7 +128,7 @@
                         <button class="bg-red-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto" @click="nextStep"
                             v-if="nightStore.killedByWolf.length > 0">Không cứu</button>
                     </div>
-                    <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white">
+                    <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-slate-300 text-black text-center">
                         Phù thủy đã dùng hết Thuốc Hồi Sinh!
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                         <button class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto"
                             @click="choosePlayerWitchKill">Bỏ qua</button>
                     </div>
-                    <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-2/3 mx-auto bg-white text-black text-center">
+                    <div v-else class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-slate-300 text-black text-center">
                         Phù thủy đã dùng hết Thuốc Độc!
                     </div>
                 </div>

@@ -12,7 +12,49 @@ export const usePlayerStore = defineStore('player', () => {
     const player = ref([
         {
             id: 1,
+            name: 'Tuấn Anh',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 2,
             name: 'Hoàng Trang',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 3,
+            name: 'A Hải',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 4,
+            name: 'A Kul',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 5,
+            name: 'A Mút Tay',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 6,
+            name: 'Matcha',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 7,
+            name: 'LaLa',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 8,
+            name: 'C.Mai Anh',
             roleID: 1,
             alive: true,
         }
@@ -21,7 +63,49 @@ export const usePlayerStore = defineStore('player', () => {
     function $reset() {
         player.value = [{
             id: 1,
+            name: 'Tuấn Anh',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 2,
             name: 'Hoàng Trang',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 3,
+            name: 'A Hải',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 4,
+            name: 'A Kul',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 5,
+            name: 'A Mút Tay',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 6,
+            name: 'Matcha',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 7,
+            name: 'LaLa',
+            roleID: 1,
+            alive: true,
+        },
+        {
+            id: 8,
+            name: 'C.Mai Anh',
             roleID: 1,
             alive: true,
         }];

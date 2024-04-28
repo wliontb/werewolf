@@ -7,7 +7,13 @@
                     <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
                     <p class="text-sm">{{ gameScript }}</p>
                     <p class="font-semibold text-yellow-300 mt-2 underline ">Hành động Quản trò:</p>
-                    <p class="text-sm">{{ modScript }}</p>
+                    <p class="text-sm" v-if="modScript.startsWith('Q:')">
+                        <span class="text-red-500">Hỏi:</span>
+                        {{ modScript.slice(2) }}
+                    </p>
+                    <p class="text-sm" v-else>
+                        {{ modScript }}
+                    </p>
                 </div>
                 <!-- Pickrole -->
                 <div v-if="setRole">
@@ -227,58 +233,58 @@ const playerAimChoose = ref(0);
 
 const listStep = ref([
     {
-        gameScript: 'Một chàng trai khỏe mạnh có sức khỏe vô địch, bảo vệ dân làng khỏi sói cắn thức giấc',
+        gameScript: 'Bảo vệ thức giấc',
         modScript: 'Gọi bảo vệ thức dậy',
         action: ['wakeupGuardian']
     },
     {
-        gameScript: 'Anh chàng lực lưỡng này quyết tâm bảo vệ mọi người',
-        modScript: 'Hỏi bảo vệ muốn bảo vệ ai?',
+        gameScript: 'Ai sẽ được bảo kê đêm nay?',
+        modScript: 'Q: Đêm nay bảo vệ muốn bảo vệ ai?',
         action: ['guardianProtect']
     },
     {
-        gameScript: 'Từ xa có tiếng sói vang vọng',
+        gameScript: 'Sói tỉnh dậy',
         modScript: 'Gọi sói thức dậy',
         action: ['wakeupWolf']
     },
     {
-        gameScript: 'Chúng hung hãn và thèm khát máu người',
-        modScript: 'Hỏi xem sói đêm nay muốn cắn ai',
+        gameScript: 'Đêm nay ai sẽ ra đi',
+        modScript: 'Q: Đêm nay sói muốn cắn ai?',
         action: ['wolfKill']
     },
     {
-        gameScript: 'Trong túp lều có 1 người đang đứng trước quả cầu ma thuật',
+        gameScript: 'Tiên tri thức giấc',
         modScript: 'Gọi tiên tri thức dậy',
         action: ['wakeupFT']
     },
     {
-        gameScript: 'Tiên tri muốn xem có điều gì khác thường trong làng',
-        modScript: 'Hỏi tiên tri muốn soi xem ai là sói?',
+        gameScript: 'Tiên tri sử dụng quyền năng',
+        modScript: 'Q: Đêm nay tiên tri muốn soi ai?',
         action: ['ftLookup']
     },
     {
-        gameScript: 'Bên rìa làng có một phù thủy đang hành động',
+        gameScript: 'Phù thủy thức giấc',
         modScript: 'Gọi phù thủy dậy',
         action: ['wakeupWitch']
     },
     {
-        gameScript: 'Phù thủy rủ lòng từ bi',
-        modScript: 'Đêm nay có người chết, hỏi xem phù thủy muốn cứu ai?',
+        gameScript: 'Phù thủy dùng thuốc giải',
+        modScript: 'Q: Đêm nay có người chết, phù thủy muốn cứu ai?',
         action: ['witchHelp']
     },
     {
-        gameScript: 'Phù thủy nở nụ cười man rợ',
-        modScript: 'Hỏi xem phù thủy muốn hạ độc ai?',
+        gameScript: 'Phù thủy dùng thuốc độc',
+        modScript: 'Q: Đêm nay phù thủy muốn hạ độc ai?',
         action: ['witchKill']
     },
     {
-        gameScript: 'Mùi thuốc súng đâu đây, đó chính là thợ săn',
+        gameScript: 'Thợ săn thức giấc',
         modScript: 'Gọi thợ săn thức dậy',
         action: ['wakeupHunter']
     },
     {
-        gameScript: 'Súng đã lên nòng',
-        modScript: 'Hỏi thợ săn muốn ngắm bắn ai?',
+        gameScript: 'Thợ săn nạp đạn',
+        modScript: 'Q: Đêm nay thợ săn muốn ngắm bắn ai?',
         action: ['hunterAim']
     },
     {

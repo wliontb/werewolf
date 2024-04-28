@@ -1,7 +1,7 @@
 export const useGameStore = defineStore('game', () => {
     const historyProtect    = ref([]);
     const logGame           = ref([]);
-    const totalPlayer       = ref(1);
+    const totalPlayer       = ref(8);
     const totalRole         = ref(0);
     const totalWolf         = ref(0);
     const totalAlive        = ref(0);
@@ -11,7 +11,7 @@ export const useGameStore = defineStore('game', () => {
     function $reset() {
         historyProtect.value = [];
         logGame.value = [];
-        totalPlayer.value = 1;
+        totalPlayer.value = 8;
         totalRole.value = 0;
         totalWolf.value = 0;
         totalAlive.value = 0;

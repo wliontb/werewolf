@@ -3,18 +3,7 @@
         <div class="flex flex-col gap-2">
             <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng đầu tiên</div>
             <div class="flex-col">
-                <div class="py-3 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
-                    <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
-                    <p class="text-sm">{{ gameScript }}</p>
-                    <p class="font-semibold text-yellow-300 mt-2 underline ">Hành động Quản trò:</p>
-                    <p class="text-sm" v-if="modScript.startsWith('Q:')">
-                        <span class="text-red-500">Hỏi:</span>
-                        {{ modScript.slice(2) }}
-                    </p>
-                    <p class="text-sm" v-else>
-                        {{ modScript }}
-                    </p>
-                </div>
+                <ScriptBar :mod-script="modScript" :game-script="gameScript" />
                 <!-- Pickrole -->
                 <div v-if="setRole">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-slate-300"
@@ -233,28 +222,28 @@ const playerAimChoose = ref(0);
 
 const listStep = ref([
     {
-        gameScript: 'Bảo vệ thức giấc',
-        modScript: 'Gọi bảo vệ thức dậy',
+        gameScript: 'Bảo vệ tỉnh dậy giữa đêm',
+        modScript: 'T: Bảo vệ thức dậy',
         action: ['wakeupGuardian']
     },
     {
-        gameScript: 'Ai sẽ được bảo kê đêm nay?',
-        modScript: 'Q: Đêm nay bảo vệ muốn bảo vệ ai?',
+        gameScript: 'Quyết tâm đêm nay sẽ không có ai chết',
+        modScript: 'Q: Đêm nay bảo vệ muốn bảo kê ai?',
         action: ['guardianProtect']
     },
     {
-        gameScript: 'Sói tỉnh dậy',
-        modScript: 'Gọi sói thức dậy',
+        gameScript: 'Sói bắt đầu đi săn',
+        modScript: 'T: Sói thức dậy',
         action: ['wakeupWolf']
     },
     {
-        gameScript: 'Đêm nay ai sẽ ra đi',
+        gameScript: 'Mùi máu tươi làm lũ sói hung hãn hơn',
         modScript: 'Q: Đêm nay sói muốn cắn ai?',
         action: ['wolfKill']
     },
     {
-        gameScript: 'Tiên tri thức giấc',
-        modScript: 'Gọi tiên tri thức dậy',
+        gameScript: 'Tín hiệu từ vũ trụ khiến Tiên tri tỉnh giấc',
+        modScript: 'T: Tiên tri thức dậy',
         action: ['wakeupFT']
     },
     {
@@ -263,32 +252,32 @@ const listStep = ref([
         action: ['ftLookup']
     },
     {
-        gameScript: 'Phù thủy thức giấc',
-        modScript: 'Gọi phù thủy dậy',
+        gameScript: 'Phù thủy tỉnh dậy bên bìa rừng',
+        modScript: 'T: Phù thủy thức dậy',
         action: ['wakeupWitch']
     },
     {
-        gameScript: 'Phù thủy dùng thuốc giải',
-        modScript: 'Q: Đêm nay có người chết, phù thủy muốn cứu ai?',
+        gameScript: 'Phù thủy dùng thảo dược cứu dân làng',
+        modScript: 'Q: Đêm nay phù thủy muốn cứu ai?',
         action: ['witchHelp']
     },
     {
-        gameScript: 'Phù thủy dùng thuốc độc',
+        gameScript: 'Phù thủy nở nụ cười man rợ',
         modScript: 'Q: Đêm nay phù thủy muốn hạ độc ai?',
         action: ['witchKill']
     },
     {
-        gameScript: 'Thợ săn thức giấc',
-        modScript: 'Gọi thợ săn thức dậy',
+        gameScript: 'Thợ săn cùng cây súng bừng tỉnh giữa đêm',
+        modScript: 'T: Thợ săn thức dậy',
         action: ['wakeupHunter']
     },
     {
-        gameScript: 'Thợ săn nạp đạn',
+        gameScript: 'Súng đã lên nòng',
         modScript: 'Q: Đêm nay thợ săn muốn ngắm bắn ai?',
         action: ['hunterAim']
     },
     {
-        gameScript: 'Đêm kinh hoàng đã trôi qua',
+        gameScript: 'Trời lờ mờ sáng, bình minh sắp lên',
         modScript: 'Qua đêm đầu tiên, chuẩn bị công bố kết quả',
         action: ['showLogNightOne']
     }

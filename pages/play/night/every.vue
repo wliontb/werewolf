@@ -4,13 +4,7 @@
             <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng thứ {{ nightStore.nightNumber }}
             </div>
             <div class="flex-col">
-                <div class="py-3 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
-                    <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
-                    <p class="text-sm">{{ gameScript }}</p>
-                    <p class="font-semibold text-yellow-300 mt-2 underline ">Hành động Quản trò:</p>
-                    <p class="text-sm">{{ modScript }}</p>
-                </div>
-                <!-- End Pickrole -->
+                <ScriptBar :mod-script="modScript" :game-script="gameScript" />
                 <!-- Set Protected -->
                 <div v-if="setProtect">
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-slate-300"
@@ -217,37 +211,37 @@ const playerAimChoose = ref(0);
 
 const listStep = ref([
     {
-        gameScript: 'Bảo vệ quyết tâm cứu mọi người',
-        modScript: 'Hỏi bảo vệ muốn bảo vệ ai?',
+        gameScript: 'Bảo vệ quyết tâm đêm nay sẽ không có ai chết',
+        modScript: 'Q: Đêm nay bảo vệ muốn bảo kê ai?',
         action: ['guardianProtect']
     },
     {
-        gameScript: 'Sói ngày càng hung hãn và thèm khát máu người',
-        modScript: 'Hỏi xem sói đêm nay muốn cắn ai',
+        gameScript: 'Mùi máu tươi làm lũ sói hung hãn hơn',
+        modScript: 'Q: Đêm nay sói muốn cắn ai?',
         action: ['wolfKill']
     },
     {
-        gameScript: 'Tiên tri muốn xem có điều gì khác thường trong làng',
-        modScript: 'Hỏi tiên tri muốn soi xem ai là sói?',
+        gameScript: 'Tiên tri sử dụng quyền năng',
+        modScript: 'Q: Đêm nay tiên tri muốn soi ai?',
         action: ['ftLookup']
     },
     {
-        gameScript: 'Phù thủy rủ lòng từ bi',
-        modScript: 'Đêm nay có người chết, hỏi xem phù thủy muốn cứu ai?',
+        gameScript: 'Phù thủy dùng thảo dược cứu dân làng',
+        modScript: 'Q: Đêm nay phù thủy muốn cứu ai?',
         action: ['witchHelp']
     },
     {
         gameScript: 'Phù thủy nở nụ cười man rợ',
-        modScript: 'Hỏi xem phù thủy muốn hạ độc ai?',
+        modScript: 'Q: Đêm nay phù thủy muốn hạ độc ai?',
         action: ['witchKill']
     },
     {
         gameScript: 'Súng đã lên nòng',
-        modScript: 'Hỏi thợ săn muốn ngắm bắn ai?',
+        modScript: 'Q: Đêm nay thợ săn muốn ngắm bắn ai?',
         action: ['hunterAim']
     },
     {
-        gameScript: 'Đêm kinh hoàng đã trôi quav',
+        gameScript: 'Bình minh lại sắp ló rạng',
         modScript: 'Qua đêm, chuẩn bị công bố kết quả',
         action: ['showLogNight']
     }

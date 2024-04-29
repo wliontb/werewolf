@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-4 w-full mb-4 md:w-4/5">
         <div class="flex flex-col gap-2">
-            <div class="w-full text-red-500 font-bold uppercase text-2xl">Buổi sáng {{ nightStore.nightNumber == 1 ? 'thứ nhất' : `thứ ${nightStore.nightNumber}` }}</div>
+            <div class="w-full text-red-500 font-bold uppercase text-2xl">Buổi sáng {{ nightStore.nightNumber == 1 ? 'đầu tiên' : `thứ ${nightStore.nightNumber}` }}</div>
             <div class="flex-col">
                 <div class="py-3 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
                     <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
@@ -17,11 +17,11 @@
                                 <b>Kết quả:</b>  Đêm qua đã có {{ nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length }} người chết!
                             </p>
                             <p class="text-black">
-                                <b class="text-red-500">Kết luận:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
+                                <b class="text-red-500">Kết luận:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getVillageAlive().length) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
                             </p>
                         </div>
 
-                        <button v-if="!(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2))" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-green-800" @click="nextStep">Tiếp tục</button>
+                        <button v-if="!(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getVillageAlive().length))" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-green-800" @click="nextStep">Tiếp tục</button>
                         <div class="flex flex-col gap-1" v-else>
                             <NuxtLink to="/setting/player" class="bg-green-500 rounded text-sm py-2 px-1.5 uppercase w-40 mx-auto hover:bg-green-700 text-center">Ván đấu mới</NuxtLink>
                             <NuxtLink to="/play/log" class="bg-orange-500 rounded text-sm py-2 px-1.5 uppercase w-40 mx-auto hover:bg-orange-700 text-center">Xem lại log ván đấu</NuxtLink>
@@ -66,7 +66,7 @@
                     <div class="flex flex-col gap-1 border border-slate-600 p-2 rounded w-full md:w-2/3 mx-auto bg-white">
                         <div class="flex-col justify-center items-center text-center mb-3">
                             <p class="text-black">
-                                <b class="text-red-500">Đã có chiến thắng chung cuộc:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
+                                <b class="text-red-500">Đã có chiến thắng chung cuộc:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getVillageAlive().length) ? 'Sói đã thắng' : 'Game đấu vẫn tiếp tục' }}
                             </p>
                         </div>
                         <NuxtLink to="/setting/player" class="bg-green-600 rounded text-sm py-1 px-1.5 uppercase w-40 h-9 mx-auto hover:bg-green-800 text-center">Ván đấu mới</NuxtLink>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <NuxtLink v-if="(step == listStep.length) && !(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2))" to="/play/night/every"
+            <NuxtLink v-if="(step == listStep.length) && !(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getVillageAlive().length))" to="/play/night/every"
                 class="bg-orange-500 rounded p-2 w-1/2 text-md mx-auto text-center border-orange-200 border-2 uppercase font-medium hover:bg-orange-800">
                 Tới buổi tối
             </NuxtLink>
@@ -110,22 +110,22 @@ let timer = null;
 
 const listStep = ref([
     {
-        gameScript: 'Kết quả của một đêm kinh hoàng',
+        gameScript: 'Kết quả sau một đêm ác mộng',
         modScript: 'Thông báo cho mọi người biết đêm qua ai bị chết',
         action: ['showResult']
     },
     {
-        gameScript: 'Sự chia rẽ',
+        gameScript: 'Dân làng nghi ngờ lẫn nhau',
         modScript: 'Cho mọi người 5 phút thảo luận',
         action: ['discuss']
     },
     {
-        gameScript: 'Dân làng phẫn nộ, họ quyết định sẽ có 1 người phải chết',
+        gameScript: 'Dân làng phẫn nộ, họ quyết định sẽ có 1 người phải chịu tội',
         modScript: 'Chọn người có nhiều phiếu bầu nhất lên dàn treo',
         action: ['chooseLynch']
     },
     {
-        gameScript: 'Màn đêm với nỗi kinh hoàng dần buông xuống',
+        gameScript: 'Màn đêm lại buông xuống cùng nỗi kinh hoàng',
         modScript: 'Ra lệnh cho mọi người nhắm mắt đi ngủ',
         action: ['showLogDay']
     }
@@ -161,8 +161,8 @@ const triggerAction = (actionName) => {
         case 'showResult':
             displayResult.value = true;
             gameStore.addLogGame(`Đêm qua đã có ${nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length} người chết!`);
-            if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2)){
-                gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : ''}`);
+            if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getVillageAlive().length)){
+                gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getVillageAlive().length) ? 'Sói đã thắng' : ''}`);
             } else {
                 gameStore.addLogGame('Game đấu vẫn tiếp tục');
             }
@@ -177,9 +177,9 @@ const triggerAction = (actionName) => {
             break;
         case 'showLogDay':
             displayLynch.value = false;
-            if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2)){
+            if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getVillageAlive().length)){
                 displayLogDay.value = true;
-                gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói đã thắng' : ''}`);
+                gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getVillageAlive().length) ? 'Sói đã thắng' : ''}`);
             } else {
                 gameStore.addLogGame('Game đấu vẫn tiếp tục');
             }

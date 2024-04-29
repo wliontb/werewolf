@@ -167,6 +167,10 @@ export const usePlayerStore = defineStore('player', () => {
         return player.value.filter(item => item.alive == true);
     }
 
+    const getVillageAlive = () => {
+        return player.value.filter(item => (item.alive == true && item.roleID !== 2));
+    }
+
     const getPlayerDead = () => {
         return player.value.filter(item => item.alive == false);
     }
@@ -245,11 +249,12 @@ export const usePlayerStore = defineStore('player', () => {
                                 if(item.roleID == 2) { //nếu là sói
                                     game.setTotalWolfLive(game.totalWolfLive - 1);
                                     game.addLogGame(`Phù thủy đã ném độc chết sói!`);
-                                }
-                                if(item.roleID == 5) { //ném trúng thợ săn
+                                } else if(item.roleID == 5) { //ném trúng thợ săn
                                     alert('Ném độc chết thợ săn');
                                     game.addLogGame(`Phù thủy đã ném độc chết thợ săn!`);
                                     night.addPlayerKilledByHunt(night.aimID);
+                                } else {
+                                    game.addLogGame(`Phù thủy đã ném độc chết ${item.name}!`);
                                 }
                                 item.alive = false;
                                 result = true;
@@ -319,6 +324,7 @@ export const usePlayerStore = defineStore('player', () => {
         getPlayerAlive,
         getPlayerDead,
         getPlayerByID,
+        getVillageAlive,
         setRole,
         setDead,
         isWolf,

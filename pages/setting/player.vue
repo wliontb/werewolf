@@ -5,7 +5,7 @@
                 <h1>Cài đặt người chơi</h1>
             </div>
             <div class="flex flex-col md:flex-row">
-                <div class="w-full md:w-1/2">Hiện tại đang có: <span class="text-red-500 font-semibold">{{ gameStore.totalPlayer
+                <div class="w-full md:w-1/2">Game đấu đang có <span class="text-red-500 font-semibold">{{ gameStore.totalPlayer
                         }}</span> người chơi</div>
                 <div class="flex flex-col md:flex-row w-full md:w-1/2 gap-1">
                     <input type="text" class="w-full md:w-4/6 p-1.5 rounded text-black border-white border"
@@ -13,10 +13,10 @@
                     <div class="flex gap-0.5 md:w-2/6">
                         <button
                         class="w-1/2 text-xs flex items-center justify-between bg-green-500 rounded p-1.5 uppercase hover:bg-green-700 border-white border"
-                        @click="addPlayer">Thêm người</button>
+                        @click="addPlayer">Thêm người chơi</button>
                         <button
                             class="w-1/2 text-xs flex items-center justify-between bg-red-500 rounded p-1.5 uppercase hover:bg-red-700 border-white border"
-                            @click="playerStore.resetRole()">Cài lại role
+                            @click="playerStore.resetRole()">Reset Vai trò
                             <IconWarning />
                         </button>
                     </div>

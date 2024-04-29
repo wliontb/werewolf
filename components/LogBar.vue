@@ -1,6 +1,21 @@
 <template>
     <div class="flex flex-col md:text-right text-sm">
+        <ul class="flex flex-row md:flex-col w-full flex-wrap mb-3">
+            <li class="bg-red-500 border-b border border-black w-1/2 md:w-full">Số lượng 2 phe</li>
+            <li class="bg-slate-400 border-b border border-black w-1/2 md:w-full">
+                <div class="p-2">
+                    🐺 còn sống: {{ gameStore.totalWolfLive }}
+                </div>
+            </li>
+            <li class="bg-slate-400 border-b border border-black w-1/2 md:w-full">
+                <div class="p-2">
+                    👤 còn sống: {{ playerStore.getVillageAlive().length }}
+                </div>
+            </li>
+        </ul>
+
         <ul class="flex flex-row md:flex-col w-full flex-wrap">
+            <li class="bg-red-500 border-b border border-black w-1/2 md:w-full">Thông số người chơi</li>
             <li class="bg-slate-400 border-b border border-black w-1/2 md:w-full" v-for="player in playerStore.player"
                 :id="player.id">
                 <div class="p-2">
@@ -33,9 +48,11 @@
 import { usePlayerStore } from '@/stores/player';
 import { useNightStore } from '@/stores/night';
 import { useRoleStore } from '@/stores/role';
+import { useGameStore } from '@/stores/game';
 const playerStore = usePlayerStore();
 const nightStore = useNightStore();
 const roleStore = useRoleStore();
+const gameStore = useGameStore();
 
 
 </script>

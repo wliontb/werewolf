@@ -113,6 +113,12 @@ export const usePlayerStore = defineStore('player', () => {
         playerOut.value = [];
     }
 
+    function $resetGame() {
+        setPlayer(player.value.concat(playerOut.value));
+        resetRole();
+        resetAlive();
+    }
+
     const setPlayer = (playerArr) => {
         player.value = [...playerArr];
     }
@@ -128,6 +134,12 @@ export const usePlayerStore = defineStore('player', () => {
     const resetRole = () => {
         player.value.forEach(item => {
             item.roleID = 1;
+        })
+    }
+
+    const resetAlive = () => {
+        player.value.forEach(item => {
+            item.alive = true;
         })
     }
 
@@ -312,6 +324,7 @@ export const usePlayerStore = defineStore('player', () => {
 
     return {
         $reset,
+        $resetGame,
         player,
         playerOut,
         resetRole,

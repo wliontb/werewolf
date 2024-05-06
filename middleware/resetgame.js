@@ -9,8 +9,9 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     if(from.path == '/play/day/every' || from.path == '/play/log') {
         if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getVillageAlive().length)) {
-            gameStore.$reset();
+            gameStore.$resetGame();
             playerStore.$resetGame();
+            roleStore.$resetGame();
             return;
         }
     }

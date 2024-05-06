@@ -313,6 +313,9 @@ export const usePlayerStore = defineStore('player', () => {
                     night.removePlayerKilledByWolf(idPlayer);
                     item.alive = true;
                     game.addLogGame(`Phù thủy đã cứu mạng ${item.name}!`);
+                    if(item.roleID == 2) {
+                        game.setTotalWolfLive(game.totalWolfLive - 1);
+                    }
                     return true;
                 }
             });

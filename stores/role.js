@@ -120,7 +120,9 @@ export const useRoleStore = defineStore('role', () => {
                 active: false
             }
         ];
+    }
 
+    function $resetGame() {
         witchHasPoison.value = true;
         witchHasProtect.value = true;
     }
@@ -174,6 +176,7 @@ export const useRoleStore = defineStore('role', () => {
 
     return {
         $reset,
+        $resetGame,
         role, witchHasPoison, witchHasProtect,
         toggleActive,
         totalActive,

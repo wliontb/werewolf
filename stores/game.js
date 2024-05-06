@@ -19,6 +19,16 @@ export const useGameStore = defineStore('game', () => {
         totalWolfLive.value = 0;
     }
 
+    function $resetGame() {
+        historyProtect.value = [];
+        totalPlayer.value = 8;
+        totalRole.value = 0;
+        totalWolf.value = 0;
+        totalAlive.value = 0;
+        totalDead.value = 0;
+        totalWolfLive.value = 0;
+    }
+
     const setTotalPlayer = (number) => {
         totalPlayer.value = number;
     }
@@ -61,6 +71,7 @@ export const useGameStore = defineStore('game', () => {
 
     return {
         $reset,
+        $resetGame,
         historyProtect,
         logGame,
         totalPlayer,

@@ -114,9 +114,10 @@ export const usePlayerStore = defineStore('player', () => {
     }
 
     function $resetGame() {
-        setPlayer(player.value.concat(playerOut.value));
+        setPlayer(getPlayerAlive().concat(playerOut.value));
         resetRole();
         resetAlive();
+        playerOut.value = [];
     }
 
     const setPlayer = (playerArr) => {
@@ -314,7 +315,7 @@ export const usePlayerStore = defineStore('player', () => {
                     item.alive = true;
                     game.addLogGame(`Phù thủy đã cứu mạng ${item.name}!`);
                     if(item.roleID == 2) {
-                        game.setTotalWolfLive(game.totalWolfLive - 1);
+                        game.setTotalWolfLive(game.totalWolfLive + 1);
                     }
                     return true;
                 }

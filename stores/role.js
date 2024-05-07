@@ -2,7 +2,7 @@ export const useRoleStore = defineStore('role', () => {
     const role = ref([
         {
             id: 1,
-            name: 'Dân làng',
+            name: 'Dân thường',
             nameEng: 'Villager',
             faction: 'human',
             active: true
@@ -65,7 +65,7 @@ export const useRoleStore = defineStore('role', () => {
         role.value = [
             {
                 id: 1,
-                name: 'Dân làng',
+                name: 'Dân thường',
                 nameEng: 'Villager',
                 faction: 'human',
                 active: true

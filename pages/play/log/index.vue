@@ -9,8 +9,7 @@
                     <b>Phe chiến thắng:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói' : '' }}
                 </li>
                 <li class="text-black bg-white border-b border-dashed hover:bg-green-300 p-1.5">
-                    <b>Các Role còn sống:</b> 
-
+                    <b>Các Role còn sống:</b> {{ roleAliveUnique.toString() }}
                 </li>
             </ul>
             <!-- LogGame -->
@@ -46,4 +45,12 @@ import { useRoleStore } from '@/stores/role';
 const playerStore = usePlayerStore();
 const roleStore = useRoleStore();
 const gameStore = useGameStore();
+const roleAliveOriginal = ref([]);
+const roleAliveUnique = ref([]);
+playerStore.getPlayerAlive().forEach(player => {
+    roleAliveOriginal.value.push(roleStore.getByID(player.roleID).name);
+})
+const uniqueSet = new Set(roleAliveOriginal.value);
+roleAliveUnique.value = [...uniqueSet]
+
 </script>

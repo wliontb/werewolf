@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-4 w-full mb-4 md:w-4/5">
         <div class="flex flex-col gap-2">
-            <div class="w-full text-red-500 font-bold uppercase text-2xl">Đêm trăng thứ {{ nightStore.nightNumber }}
+            <div class="w-full text-red-500 font-bold uppercase text-2xl">🌗 Đêm trăng thứ {{ nightStore.nightNumber }}
             </div>
             <div class="flex-col">
                 <ScriptBar :mod-script="modScript" :game-script="gameScript" />

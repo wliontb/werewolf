@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-4 w-full mb-4 md:w-4/5">
         <div class="flex flex-col gap-2">
-            <div class="w-full text-red-500 font-bold uppercase text-2xl">Buổi sáng {{ nightStore.nightNumber == 1 ? 'đầu tiên' : `thứ ${nightStore.nightNumber}` }}</div>
+            <div class="w-full text-red-500 font-bold uppercase text-2xl">🌞 Buổi sáng {{ nightStore.nightNumber == 1 ? 'đầu tiên' : `thứ ${nightStore.nightNumber}` }}</div>
             <div class="flex-col">
                 <div class="py-3 px-2 rounded bg-gradient-to-r from-indigo-500 mb-2">
                     <p class="font-semibold text-yellow-300 underline ">Nội dung ván đấu:</p>
@@ -163,6 +163,7 @@ const triggerAction = (actionName) => {
             gameStore.addLogGame(`Đêm qua đã có ${nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length} người chết!`);
             if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getVillageAlive().length)){
                 gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getVillageAlive().length) ? 'Sói đã thắng' : ''}`);
+                playerStore.pushPlayerOut(playerStore.getPlayerDead());
             } else {
                 gameStore.addLogGame('Game đấu vẫn tiếp tục');
             }
@@ -179,6 +180,7 @@ const triggerAction = (actionName) => {
             displayLynch.value = false;
             if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getVillageAlive().length)){
                 displayLogDay.value = true;
+                playerStore.pushPlayerOut(playerStore.getPlayerDead());
                 gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getVillageAlive().length) ? 'Sói đã thắng' : ''}`);
             } else {
                 gameStore.addLogGame('Game đấu vẫn tiếp tục');

@@ -30,5 +30,6 @@ const resetAll = () => {
     playerStore.$reset();
     nightStore.$reset();
     roleStore.$reset();
+    roleStore.$resetGame();
 }
 </script>

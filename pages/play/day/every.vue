@@ -162,6 +162,7 @@ const triggerAction = (actionName) => {
             displayResult.value = true;
             gameStore.addLogGame(`Đêm qua đã có ${nightStore.killedByWolf.length + nightStore.killedByHunt.length + nightStore.killedByWitch.length} người chết!`);
             if(gameStore.totalWolfLive == 0 || gameStore.totalWolfLive >= (playerStore.getVillageAlive().length)){
+                displayLogDay.value = true;
                 gameStore.addLogGame(`Game đấu đã kết thúc, phe ${gameStore.totalWolfLive == 0 ? 'Dân làng thắng' : gameStore.totalWolfLive >= (playerStore.getVillageAlive().length) ? 'Sói đã thắng' : ''}`);
                 playerStore.pushPlayerOut(playerStore.getPlayerDead());
             } else {

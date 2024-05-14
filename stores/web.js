@@ -1,5 +1,5 @@
 export const useWebStore = defineStore('web', () => {
-    const displayMenu = ref(true);
+    const displayMenu = ref(false);
 
     const toggleMenu = () => {
         displayMenu.value = !displayMenu.value;

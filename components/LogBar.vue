@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed flex flex-col md:text-right text-sm md:w-auto w-[100vw] top-20" :class="{
+    <div class="fixed flex flex-col md:text-right text-sm md:w-auto w-[100vw] top-20 md:bg-transparent bg-slate-400 md:h-auto h-[100vh]" :class="{
         'right-0': webStore.displayMenu,
         'left-[100%]': !webStore.displayMenu
     }">

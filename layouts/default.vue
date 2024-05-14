@@ -1,6 +1,6 @@
 <template>
-    <div class="container mx-auto text-white flex flex-col min-h-screen">
-        <div class="flex items-center gap-4 p-2 justify-between h-20">
+    <div class="text-white flex flex-col min-h-screen">
+        <div class="flex items-center gap-4 p-2 pr-0 justify-between h-20">
             <div class="flex items-center gap-4 p-2">
                 <img src="/img/logo.png" class="w-20" alt="">
                 <div class="flex-col" title="A Project By Matches.Enolam">
@@ -8,14 +8,14 @@
                     <h2 class="italic text-red-500 font-semibold">Moderator Support Tool</h2>
                 </div>
             </div>
-            <div class="flex items-center gap-4 p-2" v-if="['/play/night/one','/play/night/every','/play/log','/play/day/every'].includes(route.fullPath)">
+            <div class="flex items-center gap-4 p-2 pr-0" v-if="['/play/night/one','/play/night/every','/play/log','/play/day/every'].includes(route.fullPath)">
                 <button class="text-white p-2 uppercase" :class="{
                     'bg-red-300': !webStore.displayMenu,
                     'bg-red-500': webStore.displayMenu,
-                }" @click="webStore.toggleMenu()">Bảng điểm</button>
+                }" @click="webStore.toggleMenu()">☰ Bảng điểm</button>
             </div>
         </div>
-        <div class="flex flex-col md:flex-row flex-1 p-2 justify-center items-center">
+        <div class="container mx-auto flex flex-col md:flex-row flex-1 p-2 justify-center items-center">
             <slot />
         </div>
         <!-- Footer -->

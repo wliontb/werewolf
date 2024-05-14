@@ -1,10 +1,18 @@
 <template>
     <div class="container mx-auto text-white flex flex-col min-h-screen">
-        <div class="flex items-center gap-4 p-2">
-            <img src="/img/logo.png" class="w-20" alt="">
-            <div class="flex-col" title="A Project By Matches.Enolam">
-                <h1 class="text-xl font-bold text-amber-500">The Werewolves of Millers Hollow</h1>
-                <h2 class="italic text-red-500 font-semibold">Moderator Support Tool</h2>
+        <div class="flex items-center gap-4 p-2 justify-between h-20">
+            <div class="flex items-center gap-4 p-2">
+                <img src="/img/logo.png" class="w-20" alt="">
+                <div class="flex-col" title="A Project By Matches.Enolam">
+                    <h1 class="text-xl font-bold text-amber-500">The Werewolves of Millers Hollow</h1>
+                    <h2 class="italic text-red-500 font-semibold">Moderator Support Tool</h2>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 p-2" v-if="['/play/night/one','/play/night/every','/play/log','/play/day/every'].includes(route.fullPath)">
+                <button class="text-white p-2 uppercase" :class="{
+                    'bg-red-300': !webStore.displayMenu,
+                    'bg-red-500': webStore.displayMenu,
+                }" @click="webStore.toggleMenu()">Bảng điểm</button>
             </div>
         </div>
         <div class="flex flex-col md:flex-row flex-1 p-2 justify-center items-center">
@@ -19,6 +27,9 @@
     </div>
 </template>
 <script setup>
+import { useWebStore } from '@/stores/web';
+const webStore = useWebStore();
+const route = useRoute();
 useHead({
     bodyAttrs: {
         class: 'bg-image',

@@ -8,7 +8,7 @@
                     <h2 class="italic text-red-500 font-semibold">Moderator Support Tool</h2>
                 </div>
             </div>
-            <div class="flex items-center gap-4 p-2 pr-0" v-if="['/play/night/one','/play/night/every','/play/log','/play/day/every'].includes(route.fullPath)">
+            <div class="flex items-center gap-4 p-2 pr-0" v-if="['/play/night/one','/play/night/every','/play/day/every'].includes(route.fullPath)">
                 <button class="text-white p-2 uppercase" :class="{
                     'bg-red-300': !webStore.displayMenu,
                     'bg-red-500': webStore.displayMenu,

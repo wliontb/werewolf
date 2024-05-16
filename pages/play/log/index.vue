@@ -9,7 +9,7 @@
                     <b>Phe chiến thắng:</b> {{ gameStore.totalWolfLive == 0 ? 'Dân làng' : gameStore.totalWolfLive >= (playerStore.getPlayerAlive().length/2) ? 'Sói' : '' }}
                 </li>
                 <li class="text-black bg-white border-b border-dashed hover:bg-green-300 p-1.5">
-                    <b>Các Role còn sống:</b> {{ roleAliveUnique.toString() }}
+                    <b>Các Role tồn tại cuối cùng:</b> {{ roleAliveUnique.toString() }}
                 </li>
             </ul>
             <!-- LogGame -->
@@ -34,7 +34,7 @@
             <BadgeAmberRight>
                 <h1>Thông số người chơi</h1>
             </BadgeAmberRight>
-            <LogBar/>
+            <LogEndGame />
         </div>
     </div>
 </template>

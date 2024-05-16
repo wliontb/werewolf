@@ -19,9 +19,9 @@
 
         <ul class="flex flex-col w-full flex-wrap">
             <li class="bg-red-500 border-b border border-black w-full">
-                {{ route.path !== '/play/log' ? 'Thông số người chơi' : '😃 Người chơi còn sống' }}
+                Thông số người chơi
             </li>
-            <li v-if="route.path !== '/play/log'" class="bg-slate-400 border-b border border-black w-full" v-for="player in playerStore.player"
+            <li class="bg-slate-400 border-b border border-black w-full" v-for="player in playerStore.player"
                 :id="player.id">
                 <div class="p-2">
                     {{ nightStore.aimID == player.id ? '🎯' : '' }}
@@ -33,19 +33,6 @@
                     <span class="font-semibold text-black">{{ player.name }}</span>
                     [{{ player.roleID == 2 ? '🐺' : roleStore.getByID(player.roleID).name }}]
                     {{ player.alive ? '😃' : '👻' }}
-                </div>
-            </li>
-            <li v-else class="bg-slate-400 border-b border border-black w-full" v-for="player in playerStore.getPlayerAlive()"
-                :id="player.id">
-                <div class="p-2">
-                    {{ nightStore.aimID == player.id ? '🎯' : '' }}
-                    {{ nightStore.protectID == player.id ? '🛡' : '' }}
-                    <span v-if="player.roleID === 4">
-                        <template v-if="roleStore.witchHasProtect">💊</template>
-                        <template v-if="roleStore.witchHasPoison">🩹</template>
-                    </span>
-                    <span class="font-semibold text-black">{{ player.name }}</span>
-                    [{{ player.roleID == 2 ? '🐺' : roleStore.getByID(player.roleID).name }}]
                 </div>
             </li>
         </ul>
